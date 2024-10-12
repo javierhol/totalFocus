@@ -1,5 +1,4 @@
-<?php include 'config.php';
-?>
+<?php include 'config.php';?>
 <!DOCTYPE html>
 <html>
 
@@ -54,11 +53,11 @@
           <div class='collapse navbar-collapse' id='navbarSupportedContent'>
             <ul class='navbar-nav  '>
               <li class='nav-item active'>
-                <a class='nav-link' href='index.html'>Inicio <span class='sr-only'>( current )</span></a>
+                <a class='nav-link' href='index.php'>Inicio <span class='sr-only'>( current )</span></a>
               </li>
 
               <li class='nav-item'>
-                <a class='nav-link' href='product.html'>Productos</a>
+                <a class='nav-link' href='product.php'>Productos</a>
               </li>
 
               <li class='nav-item'>
@@ -66,7 +65,7 @@
               </li>
             </ul>
             <div class='user_optio_box'>
-              <a href='/login.html'>
+              <a href='login.html'>
                 <i class='fa fa-user' aria-hidden='true'></i>
               </a>
               <a href=''>
@@ -114,18 +113,6 @@
       </a>
     </div>
 
-    <style>
-      /* Establecer una altura fija para las imágenes del carrusel */
-      .carousel-item img {
-        height: 900px;
-        /* Ajusta la altura según tus necesidades */
-        object-fit: cover;
-        /* Ajusta la imagen para que cubra el contenedor sin distorsionarse */
-        width: 100%;
-        /* Asegura que la imagen ocupe todo el ancho */
-      }
-    </style>
-
     <!-- end slider section -->
   </div>
 
@@ -141,10 +128,10 @@
             </div>
             <div class='detail-box'>
               <h5>
-                Fast Delivery
+                Entrega Rapida
               </h5>
               <p>
-                variations of passages of Lorem Ipsum available
+                Confia en nosotros para una entrega rapida
               </p>
             </div>
           </div>
@@ -152,14 +139,14 @@
         <div class='col-md-6 col-lg-3'>
           <div class='box '>
             <div class='img-box'>
-              <img src='/images/feature-2.png' alt=''>
+              <img src='images/feature-2.png' alt=''>
             </div>
             <div class='detail-box'>
               <h5>
-                Free Shiping
+                Mejor Precio
               </h5>
               <p>
-                variations of passages of Lorem Ipsum available
+                Aqui encontraras los mejores precios
               </p>
             </div>
           </div>
@@ -171,10 +158,10 @@
             </div>
             <div class='detail-box'>
               <h5>
-                Best Quality
+                Mjeor Calidad
               </h5>
               <p>
-                variations of passages of Lorem Ipsum available
+                Productos de la mejor calidad
               </p>
             </div>
           </div>
@@ -186,10 +173,10 @@
             </div>
             <div class='detail-box'>
               <h5>
-                24x7 Customer support
+                Soporte 24/7
               </h5>
               <p>
-                variations of passages of Lorem Ipsum available
+                Soporte 24/7 para cualquier duda
               </p>
             </div>
           </div>
@@ -198,354 +185,153 @@
     </div>
   </section>
 
-  <section class='product_section '>
+<?php
+include 'connect.php';
+
+$conn = getConnect();
+
+if ($conn->connect_error) {
+    die('Error de conexión: ' . $conn->connect_error);
+}
+
+function getProducts($conn, $limit, $offset) {
+    $sql = "SELECT name, price, img FROM products LIMIT $limit OFFSET $offset";
+    return $conn->query($sql);
+}
+
+?>
+
+<section class='product_section '>
     <div class='container'>
-      <div class='product_heading'>
-        <h2>
-          Top Sale Watches
-        </h2>
-      </div>
-      <div class='product_container'>
-        <div class='box'>
-          <div class='box-content'>
-            <div class='img-box'>
-              <img src='images/w1.png' alt=''>
-            </div>
-            <div class='detail-box'>
-              <div class='text'>
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class="like">
-                <h6>
-                  Favorite
-                </h6>
-                <div class="star_container">
-                  <i class="fa fa-heart" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="btn-box">
-            <a href="">
-              Add To Cart
-            </a>
-          </div>
+        <div class='product_heading'>
+            <h2>Cámaras Destacadas</h2>
         </div>
-        <div class="box">
-          <div class="box-content">
-            <div class="img-box">
-              <img src="images/w2.png" alt="">
-            </div>
-            <div class="detail-box">
-              <div class="text">
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class='like'>
-                <h6>
-                  Like
-                </h6>
-                <div class='star_container'>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class='btn-box'>
-            <a href=''>
-              Add To Cart
-            </a>
-          </div>
+        <div class='product_container'>
+            <?php
+            $result = getProducts($conn, 3, 0); 
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <div class='box'>
+                        <div class='box-content'>
+                            <div class='img-box'>
+                                <img src='" . $row['img'] . "' alt=''>
+                            </div>
+                            <div class='detail-box'>
+                                <div class='text'>
+                                    <h6>" . $row['name'] . "</h6>
+                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
+                                </div>
+                                <div class='like'>
+                                    <h6>Favorito</h6>
+                                    <div class='star_container'>
+                                        <i class='fa fa-heart' aria-hidden='true'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='btn-box'>
+                            <a href=''>Añadir al carrito</a>
+                        </div>
+                    </div>";
+                }
+            } else {
+                echo '<p>No hay productos disponibles.</p>';
+            }
+            ?>
         </div>
-        <div class='box'>
-          <div class='box-content'>
-            <div class='img-box'>
-              <img src='images/w3.png' alt=''>
-            </div>
-            <div class='detail-box'>
-              <div class='text'>
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class="like">
-                <h6>
-                  Like
-                </h6>
-                <div class="star_container">
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="btn-box">
-            <a href="">
-              Add To Cart
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- end product section -->
-
-
-  <!-- product section -->
-
-  <section class="product_section ">
-    <div class="container">
-      <div class="product_heading">
-        <h2>
-          Feature Watches
-        </h2>
-      </div>
-      <div class="product_container">
-        <div class="box">
-          <div class="box-content">
-            <div class="img-box">
-              <img src="images/w4.png" alt="">
-            </div>
-            <div class="detail-box">
-              <div class="text">
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class='like'>
-                <h6>
-                  Like
-                </h6>
-                <div class='star_container'>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class='btn-box'>
-            <a href=''>
-              Add To Cart
-            </a>
-          </div>
-        </div>
-        <div class='box'>
-          <div class='box-content'>
-            <div class='img-box'>
-              <img src='images/w5.png' alt=''>
-            </div>
-            <div class='detail-box'>
-              <div class='text'>
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class="like">
-                <h6>
-                  Like
-                </h6>
-                <div class="star_container">
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="btn-box">
-            <a href="">
-              Add To Cart
-            </a>
-          </div>
-        </div>
-        <div class="box">
-          <div class="box-content">
-            <div class="img-box">
-              <img src="images/w6.png" alt="">
-            </div>
-            <div class="detail-box">
-              <div class="text">
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class='like'>
-                <h6>
-                  Like
-                </h6>
-                <div class='star_container'>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class='btn-box'>
-            <a href=''>
-              Add To Cart
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end product section -->
-
-  <!-- product section -->
-
-  <section class='product_section '>
+<section class='product_section '>
     <div class='container'>
-      <div class='product_heading'>
-        <h2>
-          New Arrivals
-        </h2>
-      </div>
-      <div class='product_container'>
-        <div class='box'>
-          <div class='box-content'>
-            <div class='img-box'>
-              <img src='images/w7.png' alt=''>
-            </div>
-            <div class='detail-box'>
-              <div class='text'>
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class="like">
-                <h6>
-                  Like
-                </h6>
-                <div class="star_container">
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                  <i class="fa fa-star" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="btn-box">
-            <a href="">
-              Add To Cart
-            </a>
-          </div>
+        <div class='product_heading'>
+            <h2>Cámaras en Oferta</h2>
         </div>
-        <div class="box">
-          <div class="box-content">
-            <div class="img-box">
-              <img src="images/w8.png" alt="">
-            </div>
-            <div class="detail-box">
-              <div class="text">
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class='like'>
-                <h6>
-                  Like
-                </h6>
-                <div class='star_container'>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class='btn-box'>
-            <a href=''>
-              Add To Cart
-            </a>
-          </div>
+        <div class='product_container'>
+            <?php
+            $result = getProducts($conn, 3, 3);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <div class='box'>
+                        <div class='box-content'>
+                            <div class='img-box'>
+                                <img src='" . $row['img'] . "' alt=''>
+                            </div>
+                            <div class='detail-box'>
+                                <div class='text'>
+                                    <h6>" . $row['name'] . "</h6>
+                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
+                                </div>
+                                <div class='like'>
+                                    <h6>Like</h6>
+                                    <div class='star_container'>
+                                        <i class='fa fa-heart' aria-hidden='true'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='btn-box'>
+                            <a href=''>Añadir al carrito</a>
+                        </div>
+                    </div>";
+                }
+            } else {
+                echo "<p>No hay más productos disponibles.</p>";
+            }
+            ?>
         </div>
-        <div class='box'>
-          <div class='box-content'>
-            <div class='img-box'>
-              <img src='images/w9.png' alt=''>
-            </div>
-            <div class='detail-box'>
-              <div class='text'>
-                <h6>
-                  Men's Watch
-                </h6>
-                <h5>
-                  <span>$</span> 300
-                </h5>
-              </div>
-              <div class='like'>
-                <h6>
-                  Like
-                </h6>
-                <div class='star_container'>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                  <i class='fa fa-star' aria-hidden='true'></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class='btn-box'>
-            <a href=''>
-              Add To Cart
-            </a>
-          </div>
-        </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- end product section -->
+<section class='product_section '>
+    <div class='container'>
+        <div class='product_heading'>
+            <h2>New Arrivals</h2>
+        </div>
+        <div class='product_container'>
+            <?php
+            $result = getProducts($conn, 3, 6); 
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <div class='box'>
+                        <div class='box-content'>
+                            <div class='img-box'>
+                                <img src='" . $row['img'] . "' alt=''>
+                            </div>
+                            <div class='detail-box'>
+                                <div class='text'>
+                                    <h6>" . $row['name'] . "</h6>
+                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
+                                </div>
+                                <div class='like'>
+                                    <h6>Favorite</h6>
+                                    <div class='star_container'>
+                                        <i class='fa fa-heart' aria-hidden='true'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='btn-box'>
+                            <a href=''>Añadir al carrito</a>
+                        </div>
+                    </div>";
+                }
+            } else {
+                echo "<p>No hay más productos disponibles.</p>";
+            }
+            ?>
+        </div>
+    </div>
+</section>
+
+<?php
+// Cerrar la conexión
+$conn->close();
+?>
+
 
   <!-- contact section -->
   <section class='contact_section layout_padding'>

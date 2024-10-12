@@ -4,39 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
-  <link rel="stylesheet" href="/css/register.css">
+  <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
   <div class="wrapper">
-    <a href="views/index.html" class="back">
-      <img src="/images/arrow.svg" alt="back">
+    <a href="index.html" class="back">
+      <img src="images/arrow.svg" alt="back">
     </a>
-    <form action="#">
+    <form action="#" id="register-form">
       <h2>Registro</h2>
         <div class="input-field">
-        <input type="text" required>
+        <input name="username" id="username" type="text" required>
         <label>Ingresa tu nombre</label>
       </div>
       <div class="input-field">
-        <input type="email" required>
+        <input name="email" id="email" type="email" required>
         <label>Ingresa tu correo</label>
       </div>
       <div class="input-field">
-        <input type="password" required>
+        <input name="password" id="password" type="password" required>
         <label>Ingresa una contraseña</label>
       </div>
-      <!-- <div class="forget">
-        <label for="remember">
-          <input type="checkbox" id="remember">
-          <p>Remember me</p>
-        </label>
-        <a href="#">Forgot password?</a>
-      </div> -->
+      <div class="error-message" id="errorMessage"></div>
       <button type="submit">Registrate</button>
       <div class="register">
         <p>Ya tienes una cuenta? <a href="/login.html">Inicia sesión</a></p>
       </div>
     </form>
   </div>
+  <script src="js/register.js"></script>
 </body>
 </html>

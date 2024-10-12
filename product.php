@@ -8,7 +8,7 @@
   <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <!-- Site Metas -->
-  <link rel="icon" href="/images/fevicon/fevicon.png" type="image/gif" />
+  <link rel="icon" href="images/fevicon/fevicon.png" type="image/gif" />
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
@@ -39,7 +39,7 @@
     <header class="header_section">
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="index.php">
             <span>
               TotalFocus
             </span>
@@ -55,11 +55,11 @@
                 <a class="nav-link" href="index.php">Inicio <span class="sr-only">(current)</span></a>
               </li>
              
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="product.php">Productos</a>
               </li>
              
-              <li class="nav-item active">
+              <li class="nav-item">
                 <a class="nav-link" href="contact.html">Contactanos</a>
               </li>
             </ul>
@@ -78,59 +78,163 @@
     <!-- end header section -->
   </div>
 
+  <!-- product section -->
+  <?php
+include 'connect.php';
 
+$conn = getConnect();
 
-  <!-- contact section -->
-  <section class="contact_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <h2>
-          Contactanos
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form_container">
-            <form action="">
-              <div>
-                <input type="text" placeholder="Tu nombre" />
-              </div>
-              <div>
-                <input type="text" placeholder="Tu telefono" />
-              </div>
-              <div>
-                <input type="email" placeholder="Tu correo" />
-              </div>
-              <div>
-                <input type="text" class="message-box" placeholder="Expresate aqui..." />
-              </div>
-              <div class="btn_box">
-                <button>
-                  Enviar
-                </button>
-              </div>
-            </form>
-          </div>
+if ($conn->connect_error) {
+    die('Error de conexión: ' . $conn->connect_error);
+}
+
+function getProducts($conn, $limit, $offset) {
+    $sql = "SELECT name, price, img FROM products LIMIT $limit OFFSET $offset";
+    return $conn->query($sql);
+}
+
+?>
+
+<section class='product_section '>
+    <div class='container'>
+        <div class='product_heading'>
+            <h2>Cámaras Destacadas</h2>
         </div>
-        <div class="col-md-6 ">
-          <div class="map_container">
-            <div class="map">
-              <div id="googleMap"></div>
-            </div>
-          </div>
+        <div class='product_container'>
+            <?php
+            $result = getProducts($conn, 3, 0); 
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <div class='box'>
+                        <div class='box-content'>
+                            <div class='img-box'>
+                                <img src='" . $row['img'] . "' alt=''>
+                            </div>
+                            <div class='detail-box'>
+                                <div class='text'>
+                                    <h6>" . $row['name'] . "</h6>
+                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
+                                </div>
+                                <div class='like'>
+                                    <h6>Favorito</h6>
+                                    <div class='star_container'>
+                                        <i class='fa fa-heart' aria-hidden='true'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='btn-box'>
+                            <a href=''>Añadir al carrito</a>
+                        </div>
+                    </div>";
+                }
+            } else {
+                echo '<p>No hay productos disponibles.</p>';
+            }
+            ?>
         </div>
-      </div>
     </div>
-  </section>
-  <!-- end contact section -->
+</section>
 
+<section class='product_section '>
+    <div class='container'>
+        <div class='product_heading'>
+            <h2>Cámaras en Oferta</h2>
+        </div>
+        <div class='product_container'>
+            <?php
+            $result = getProducts($conn, 3, 3);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <div class='box'>
+                        <div class='box-content'>
+                            <div class='img-box'>
+                                <img src='" . $row['img'] . "' alt=''>
+                            </div>
+                            <div class='detail-box'>
+                                <div class='text'>
+                                    <h6>" . $row['name'] . "</h6>
+                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
+                                </div>
+                                <div class='like'>
+                                    <h6>Like</h6>
+                                    <div class='star_container'>
+                                        <i class='fa fa-heart' aria-hidden='true'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='btn-box'>
+                            <a href=''>Añadir al carrito</a>
+                        </div>
+                    </div>";
+                }
+            } else {
+                echo "<p>No hay más productos disponibles.</p>";
+            }
+            ?>
+        </div>
+    </div>
+</section>
+
+<section class='product_section '>
+    <div class='container'>
+        <div class='product_heading'>
+            <h2>New Arrivals</h2>
+        </div>
+        <div class='product_container'>
+            <?php
+            $result = getProducts($conn, 3, 6); 
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "
+                    <div class='box'>
+                        <div class='box-content'>
+                            <div class='img-box'>
+                                <img src='" . $row['img'] . "' alt=''>
+                            </div>
+                            <div class='detail-box'>
+                                <div class='text'>
+                                    <h6>" . $row['name'] . "</h6>
+                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
+                                </div>
+                                <div class='like'>
+                                    <h6>Favorite</h6>
+                                    <div class='star_container'>
+                                        <i class='fa fa-heart' aria-hidden='true'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='btn-box'>
+                            <a href=''>Añadir al carrito</a>
+                        </div>
+                    </div>";
+                }
+            } else {
+                echo "<p>No hay más productos disponibles.</p>";
+            }
+            ?>
+        </div>
+    </div>
+</section>
+
+<?php
+// Cerrar la conexión
+$conn->close();
+?>
+
+
+  <!-- end product section -->
 
   <!-- info section -->
   <section class="info_section layout_padding2">
     <div class="container">
       <div class="info_logo">
         <h2>
-          Tiempo de fotografía
+          Tiempo de fotografia
         </h2>
       </div>
       <div class="row">
@@ -153,7 +257,7 @@
                 <img src="images/telephone-white.png" width="12px" alt="">
               </div>
               <p>
-                +34 653467744
+                +34 1234567890
               </p>
             </div>
             <div>
@@ -169,10 +273,10 @@
         <div class="col-md-3">
           <div class="info_info">
             <h5>
-              Informacion
+              Información
             </h5>
             <p>
-              Tiene como objetivo principal la satisfacción de nuestros clientes, ofreciendo productos de calidad y un servicio personalizado.
+            Tiene como objetivo principal la satisfacción de nuestros clientes, ofreciendo productos de calidad y un servicio personalizado.
             </p>
           </div>
         </div>
@@ -187,7 +291,7 @@
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w1.png" alt="">
+                      <img src="images/1.jpg" alt="">
                     </div>
                   </a>
                 </div>
@@ -268,7 +372,7 @@
   <section class="footer_section">
     <div class="container">
       <p>
-        &copy; <span id="displayYear"></span> Todos los derechos reservados | Diseñado por
+        &copy; <span id="displayYear"></span>Todos los derechos reservados | Diseñado por
         <a href="https://html.design/">Miguel Sanz</a>
       </p>
     </div>
@@ -284,10 +388,7 @@
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- custom js -->
   <script type="text/javascript" src="js/custom.js"></script>
-  <!-- Google Map -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-  </script>
-  <!-- End Google Map -->
+
 
 </body>
 
