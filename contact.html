@@ -91,21 +91,21 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form_container">
-            <form action="">
+            <form action="" id="contact-form">
               <div>
-                <input type="text" placeholder="Tu nombre" />
+                <input name="name" id="name" type="text" placeholder="Tu nombre" />
               </div>
               <div>
-                <input type="text" placeholder="Tu telefono" />
+                <input type="email" name="email" id="email" placeholder="Tu correo" />
               </div>
               <div>
-                <input type="email" placeholder="Tu correo" />
+                <input type="text" name="theme" id="theme" placeholder="Pon tu un titulo" />
               </div>
               <div>
-                <input type="text" class="message-box" placeholder="Expresate aqui..." />
+                <input type="text" name="message" id="message" class="message-box" placeholder="Expresate aqui..." />
               </div>
               <div class="btn_box">
-                <button>
+                <button type="submit">
                   Enviar
                 </button>
               </div>
@@ -269,7 +269,7 @@
     <div class="container">
       <p>
         &copy; <span id="displayYear"></span> Todos los derechos reservados | Diseñado por
-        <a href="https://html.design/">Miguel Sanz</a>
+        <a href="#">Miguel Sanz</a>
       </p>
     </div>
   </section>
@@ -284,9 +284,11 @@
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- custom js -->
   <script type="text/javascript" src="js/custom.js"></script>
+  <script type="text/javascript" src="js/contact.js"></script>
   <!-- Google Map -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
   </script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
   <!-- End Google Map -->
 
 </body>

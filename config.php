@@ -42,7 +42,7 @@ if ($tableCheck->num_rows == 0) {
         theme VARCHAR(30) NOT NULL,
         message TEXT NOT NULL);
 
-        CREATE TABLE IF NOT EXISTS whishes (
+        CREATE TABLE IF NOT EXISTS wishlist (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT,
         product_id INT
@@ -54,6 +54,12 @@ if ($tableCheck->num_rows == 0) {
         product_id INT,
         amount INT
         );
+
+        CREATE TABLE IF NOT EXISTS shopping (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT,
+        product_id INT,
+        amount INT);
     ";
 
     if ($conn->multi_query($sqlCreateTables) === TRUE) {

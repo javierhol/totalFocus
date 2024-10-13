@@ -1,4 +1,4 @@
-<?php include 'config.php';?>
+<?php include 'config.php'; ?>
 <!DOCTYPE html>
 <html>
 
@@ -65,11 +65,17 @@
               </li>
             </ul>
             <div class='user_optio_box'>
-              <a href='login.html'>
+              <a href='login.html' id="login">
                 <i class='fa fa-user' aria-hidden='true'></i>
               </a>
-              <a href=''>
+              <a href='' id="logout">
+                <i class="fa fa-sign-out" aria-hidden='true'></i>
+              </a>
+              <a href='cart.html' id="cart">
                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
+              </a>
+              <a href='wishlist.php' id="wishlist">
+                <i class='fa fa-heart' aria-hidden='true'></i>
               </a>
             </div>
           </div>
@@ -185,33 +191,34 @@
     </div>
   </section>
 
-<?php
-include 'connect.php';
+  <?php
+  include 'connect.php';
 
-$conn = getConnect();
+  $conn = getConnect();
 
-if ($conn->connect_error) {
+  if ($conn->connect_error) {
     die('Error de conexión: ' . $conn->connect_error);
-}
+  }
 
-function getProducts($conn, $limit, $offset) {
+  function getProducts($conn, $limit, $offset)
+  {
     $sql = "SELECT name, price, img FROM products LIMIT $limit OFFSET $offset";
     return $conn->query($sql);
-}
+  }
 
-?>
+  ?>
 
-<section class='product_section '>
+  <section class='product_section '>
     <div class='container'>
-        <div class='product_heading'>
-            <h2>Cámaras Destacadas</h2>
-        </div>
-        <div class='product_container'>
-            <?php
-            $result = getProducts($conn, 3, 0); 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "
+      <div class='product_heading'>
+        <h2>Cámaras Destacadas</h2>
+      </div>
+      <div class='product_container'>
+        <?php
+        $result = getProducts($conn, 3, 0);
+        if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+            echo "
                     <div class='box'>
                         <div class='box-content'>
                             <div class='img-box'>
@@ -234,26 +241,26 @@ function getProducts($conn, $limit, $offset) {
                             <a href=''>Añadir al carrito</a>
                         </div>
                     </div>";
-                }
-            } else {
-                echo '<p>No hay productos disponibles.</p>';
-            }
-            ?>
-        </div>
+          }
+        } else {
+          echo '<p>No hay productos disponibles.</p>';
+        }
+        ?>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class='product_section '>
+  <section class='product_section '>
     <div class='container'>
-        <div class='product_heading'>
-            <h2>Cámaras en Oferta</h2>
-        </div>
-        <div class='product_container'>
-            <?php
-            $result = getProducts($conn, 3, 3);
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "
+      <div class='product_heading'>
+        <h2>Cámaras en Oferta</h2>
+      </div>
+      <div class='product_container'>
+        <?php
+        $result = getProducts($conn, 3, 3);
+        if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+            echo "
                     <div class='box'>
                         <div class='box-content'>
                             <div class='img-box'>
@@ -276,26 +283,26 @@ function getProducts($conn, $limit, $offset) {
                             <a href=''>Añadir al carrito</a>
                         </div>
                     </div>";
-                }
-            } else {
-                echo "<p>No hay más productos disponibles.</p>";
-            }
-            ?>
-        </div>
+          }
+        } else {
+          echo "<p>No hay más productos disponibles.</p>";
+        }
+        ?>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class='product_section '>
+  <section class='product_section '>
     <div class='container'>
-        <div class='product_heading'>
-            <h2>New Arrivals</h2>
-        </div>
-        <div class='product_container'>
-            <?php
-            $result = getProducts($conn, 3, 6); 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    echo "
+      <div class='product_heading'>
+        <h2>Recien llegados</h2>
+      </div>
+      <div class='product_container'>
+        <?php
+        $result = getProducts($conn, 3, 6);
+        if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+            echo "
                     <div class='box'>
                         <div class='box-content'>
                             <div class='img-box'>
@@ -307,7 +314,7 @@ function getProducts($conn, $limit, $offset) {
                                     <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
                                 </div>
                                 <div class='like'>
-                                    <h6>Favorite</h6>
+                                    <h6>Favorito</h6>
                                     <div class='star_container'>
                                         <i class='fa fa-heart' aria-hidden='true'></i>
                                     </div>
@@ -318,19 +325,19 @@ function getProducts($conn, $limit, $offset) {
                             <a href=''>Añadir al carrito</a>
                         </div>
                     </div>";
-                }
-            } else {
-                echo "<p>No hay más productos disponibles.</p>";
-            }
-            ?>
-        </div>
+          }
+        } else {
+          echo "<p>No hay más productos disponibles.</p>";
+        }
+        ?>
+      </div>
     </div>
-</section>
+  </section>
 
-<?php
-// Cerrar la conexión
-$conn->close();
-?>
+  <?php
+  // Cerrar la conexión
+  $conn->close();
+  ?>
 
 
   <!-- contact section -->
@@ -404,6 +411,8 @@ $conn->close();
   <!-- Google Map -->
   <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap'>
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
   <!-- End Google Map -->
 
 </body>

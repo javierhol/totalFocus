@@ -3,36 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>| Login</title>
   <link rel="stylesheet" href="css/register.css">
+  <link rel="shortcut icon" href="images/fevicon/fevicon.png" type="image/x-icon">
 </head>
 <body>
   <div class="wrapper">
     <a href="index.php" class="back">
       <img src="images/arrow.svg" alt="back">
     </a>
-    <form action="#">
+    <form action="" id="login-form">
       <h2>Login</h2>
         <div class="input-field">
-        <input type="email" required>
+        <input name="email" id="email" type="email" required>
         <label>Ingresa tu correo</label>
       </div>
       <div class="input-field">
-        <input type="password" required>
+        <input name="password" id="password" type="password" required>
         <label>Ingresa tu contraseña</label>
       </div>
-      <!-- <div class="forget">
-        <label for="remember">
-          <input type="checkbox" id="remember">
-          <p>Remember me</p>
-        </label>
-        <a href="#">Forgot password?</a>
-      </div> -->
+      <div class="error-message" id="errorMessage"></div>
       <button type="submit">Iniciar Sesión</button>
       <div class="register">
         <p>Aun no tienes una cuenta? <a href="register.html">Registrarse</a></p>
       </div>
     </form>
   </div>
+  <script src="js/login.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script> 
 </body>
 </html>

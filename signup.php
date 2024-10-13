@@ -5,11 +5,13 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
 
     $username = $_POST[ 'username' ];
     $email = $_POST[ 'email' ];
-    $pass = $_POST[ 'pass' ];
+    $pass = $_POST[ 'password' ];
 
     $email_check_query = "SELECT * FROM users WHERE email='$email'";
 
-    $email_check_result = mysqli_query( getConnect(), $email_check_query );
+    $conn = getConnect();
+
+    $email_check_result = mysqli_query( $conn, $email_check_query );
 
     if ( $email_check_result ) {
 
@@ -27,7 +29,7 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
 
             $insert_query = "INSERT INTO users (username,email,pass) VALUES ('$username','$email','$hashed_password')";
 
-            if ( mysqli_query( getConnect(), $insert_query ) ) {
+            if ( mysqli_query( $conn, $insert_query ) ) {
 
                 $response = array(
                     'status' => 'success',
@@ -37,12 +39,12 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
                 exit();
             } else {
 
-                echo 'Error al registrar el usuario: ' . mysqli_error( getConnect() );
+                echo 'Error al registrar el usuario: ' . mysqli_error( $conn );
             }
         }
     } else {
 
-        echo 'Error en la consulta: ' . mysqli_error( getConnect() );
+        echo 'Error en la consulta: ' . mysqli_error( $conn );
     }
 }
 ?>
