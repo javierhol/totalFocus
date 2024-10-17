@@ -27,7 +27,8 @@ function myMap() {
 let logout = document.getElementById('logout');
 let login = document.getElementById('login');
 let wishlist = document.getElementById('wishlist');
-let cart = document.getElementById('cart');
+let cart = document.querySelectorAll('#cart');
+let si = document.getElementById('si');
 
 const id = localStorage.getItem('id');
 
@@ -46,19 +47,27 @@ logout.addEventListener('click', function () {
     window.location.href = 'index.php';
 });
 
-cart.addEventListener('click', function () {
-   
-    if (!id) { 
+cart.forEach(function (element) {
+    element.addEventListener('click', function () {
         event.preventDefault();
-        swal(
-            'Inicie sesión para agregar productos al carrito',
-            '¡Bienvenido!',
-            'warning'
-        ).then(() => {
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 100);
-        });
-    }
+        if (!id) {
+            swal(
+                'Inicie sesión para agregar productos al carrito',
+                '¡Bienvenido!',
+                'warning'
+            ).then(() => {
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 100);
+            });
+        }else{
+            //delete the event.preventDefault() to redirect to the cart page
+            window.location.href = 'cart.html';
+        }
+    });
+});
 
+
+si.addEventListener('click', function () {
+    alert('¡Gracias por tu compra!');
 });

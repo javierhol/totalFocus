@@ -19,6 +19,7 @@
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
 
+
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
@@ -27,6 +28,7 @@
 
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet" />
+  <link rel='stylesheet' type='text/css' href='css/card-shop.css' />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 
@@ -105,29 +107,24 @@ function getProducts($conn, $limit, $offset) {
             $result = getProducts($conn, 3, 0); 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    echo "
-                    <div class='box'>
-                        <div class='box-content'>
-                            <div class='img-box'>
-                                <img src='" . $row['img'] . "' alt=''>
-                            </div>
-                            <div class='detail-box'>
-                                <div class='text'>
-                                    <h6>" . $row['name'] . "</h6>
-                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
-                                </div>
-                                <div class='like'>
-                                    <h6>Favorito</h6>
-                                    <div class='star_container'>
-                                        <i class='fa fa-heart' aria-hidden='true'></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='btn-box'>
-                            <a href=''>Añadir al carrito</a>
-                        </div>
-                    </div>";
+                  echo " <div class='product-card'>
+                  <div class='badge'>Hot</div>
+                  <div class='product-tumb'>
+                    <img src=" . $row['img'] . " alt=''>
+                  </div>
+                  <div class='product-details'>
+                    <span class='product-catagory'>Women,bag</span>
+                    <h4><a href=''>" . $row['name'] . "</a></h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
+                    <div class='product-bottom-details'>
+                      <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
+                      <div class='product-links'>
+                        <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
+                        <a href=''><i class='fa fa-shopping-cart' id='cart'></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>";
                 }
             } else {
                 echo '<p>No hay productos disponibles.</p>';
@@ -147,29 +144,24 @@ function getProducts($conn, $limit, $offset) {
             $result = getProducts($conn, 3, 3);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    echo "
-                    <div class='box'>
-                        <div class='box-content'>
-                            <div class='img-box'>
-                                <img src='" . $row['img'] . "' alt=''>
-                            </div>
-                            <div class='detail-box'>
-                                <div class='text'>
-                                    <h6>" . $row['name'] . "</h6>
-                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
-                                </div>
-                                <div class='like'>
-                                    <h6>Like</h6>
-                                    <div class='star_container'>
-                                        <i class='fa fa-heart' aria-hidden='true'></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='btn-box'>
-                            <a href=''>Añadir al carrito</a>
-                        </div>
-                    </div>";
+                  echo " <div class='product-card'>
+              <div class='badge'>Ofert</div>
+              <div class='product-tumb'>
+                <img src=" . $row['img'] . " alt=''>
+              </div>
+              <div class='product-details'>
+                <span class='product-catagory'>Women,bag</span>
+                <h4><a href=''>" . $row['name'] . "</a></h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
+                <div class='product-bottom-details'>
+                  <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
+                  <div class='product-links'>
+                    <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
+                    <a href=''><i class='fa fa-shopping-cart' id='cart'></i></a>
+                  </div>
+                </div>
+              </div>
+	          </div>";
                 }
             } else {
                 echo "<p>No hay más productos disponibles.</p>";
@@ -189,29 +181,24 @@ function getProducts($conn, $limit, $offset) {
             $result = getProducts($conn, 3, 6); 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    echo "
-                    <div class='box'>
-                        <div class='box-content'>
-                            <div class='img-box'>
-                                <img src='" . $row['img'] . "' alt=''>
-                            </div>
-                            <div class='detail-box'>
-                                <div class='text'>
-                                    <h6>" . $row['name'] . "</h6>
-                                    <h5><span>$</span> " . number_format($row['price'], 2) . "</h5>
-                                </div>
-                                <div class='like'>
-                                    <h6>Favorite</h6>
-                                    <div class='star_container'>
-                                        <i class='fa fa-heart' aria-hidden='true'></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='btn-box'>
-                            <a href=''>Añadir al carrito</a>
-                        </div>
-                    </div>";
+                  echo " <div class='product-card'>
+                  <div class='badge'>Newly</div>
+                  <div class='product-tumb'>
+                    <img src=" . $row['img'] . " alt=''>
+                  </div>
+                  <div class='product-details'>
+                    <span class='product-catagory'>Women,bag</span>
+                    <h4><a href=''>" . $row['name'] . "</a></h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
+                    <div class='product-bottom-details'>
+                      <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
+                      <div class='product-links'>
+                        <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
+                        <a href=''><i class='fa fa-shopping-cart' id='cart'></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>";
                 }
             } else {
                 echo "<p>No hay más productos disponibles.</p>";
@@ -338,12 +325,12 @@ $conn->close();
         <div class="col-md-3">
           <div class="info_form ">
             <h5>
-              Newsletter
+              Enterate de las novedades!
             </h5>
             <form action="">
-              <input type="email" placeholder="Enter your email">
+              <input type="email" placeholder="Ingresa tu email">
               <button>
-                Subscribe
+                Suscribete
               </button>
             </form>
             <div class="social_box">

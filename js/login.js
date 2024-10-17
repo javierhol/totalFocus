@@ -35,7 +35,11 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'error') {
-                    errorMessage.innerHTML = data.message;
+                    swal(
+                        'Error',
+                        data.message,
+                        'error'
+                    );
                 } else {
                     localStorage.setItem('id', data.user.id);
                     swal(

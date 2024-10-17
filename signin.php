@@ -43,7 +43,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
             $response = array(
                 'status' => 'error',
-                'message' => 'El correo electrónico no está registrado.'
+                'message' => 'El usuario no se encuentra registrado.'
             );
             echo json_encode( $response );
         }
