@@ -13,7 +13,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>TotalFocus</title>
+  <title> | TotalFocus</title>
 
 
   <!-- bootstrap core css -->
@@ -42,9 +42,7 @@
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.php">
-            <span>
-              TotalFocus
-            </span>
+          <img class="image-tittle" src="images/title.png" alt="Logo TotalFocus">
           </a>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

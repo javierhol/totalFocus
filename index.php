@@ -14,7 +14,7 @@
   <meta name='description' content='' />
   <meta name='author' content='' />
 
-  <title>TotalFocus</title>
+  <title> | TotalFocus</title>
 
   <!-- bootstrap core css -->
   <link rel='stylesheet' type='text/css' href='css/bootstrap.css' />

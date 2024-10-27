@@ -235,8 +235,18 @@ color: #18c77e;
 }
 
 .user_optio_box a {
+  font-size: 30px;
   margin-left: 15px;
   color: #18c77e;
+}
+
+#wishlist{
+  color:#c70223;
+  opacity: 0.77;
+}
+
+#wishlist :hover{
+  color: #f40909;
 }
 
 /*end header section*/
