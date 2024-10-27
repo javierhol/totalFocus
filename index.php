@@ -9,7 +9,7 @@
   <!-- Mobile Metas -->
   <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no' />
   <!-- Site Metas -->
-  <link rel='icon' href='images/fevicon/fevicon.png' type='image/gif' />
+  <link rel='icon' href='images/fevicon/logo.png' type='image/gif' />
   <meta name='keywords' content='' />
   <meta name='description' content='' />
   <meta name='author' content='' />
@@ -41,9 +41,7 @@
       <div class='container-fluid'>
         <nav class='navbar navbar-expand-lg custom_nav-container '>
           <a class='navbar-brand' href='index.html'>
-            <span>
-              TotalFocus
-            </span>
+          <img class="image-tittle" src="images/title.png" alt="Logo TotalFocus">
           </a>
 
           <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarSupportedContent'

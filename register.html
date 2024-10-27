@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>| Register</title>
   <link rel="stylesheet" href="css/register.css">
-  <link rel="shortcut icon" href="images/fevicon/fevicon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="images/fevicon/logo.png" type="image/x-icon">
 </head>
 <body>
   <div class="wrapper">
@@ -24,8 +24,12 @@
       </div>
       <div class="input-field">
         <input name="password" id="password" type="password" required>
-        <label>Ingresa una contraseña</label>
+        <label>Ingresa tu contraseña</label>
+        <span class="toggle-password">
+          <img src="images/eye.svg" alt="Mostrar/Ocultar" id="togglePassword">
+        </span>
       </div>
+      
       <div class="error-message" id="errorMessage"></div>
       <button type="submit">Registrate</button>
       <div class="register">

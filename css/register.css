@@ -89,6 +89,26 @@ h2 {
   color: #fff;
 }
 
+.input-field {
+  position: relative;
+  border-bottom: 2px solid #ccc;
+  margin: 15px 0;
+}
+
+.input-field .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.input-field .toggle-password img {
+  width: 20px;
+  height: 20px;
+}
+
+
 .input-field input:focus~label,
 .input-field input:valid~label {
   font-size: 0.8rem;

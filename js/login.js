@@ -72,3 +72,16 @@ inputs.forEach(input => {
   });
 });
 
+const togglePassword = document.querySelector("#togglePassword");
+const password = document.querySelector("#password");
+
+togglePassword.addEventListener("click", function () {
+  // Alternar el tipo de input entre 'password' y 'text'
+  const type = password.getAttribute("type") === "password" ? "text" : "password";
+  password.setAttribute("type", type);
+  
+  // Cambiar el ícono de ojo cuando el campo sea visible u oculto
+  this.src = type === "password" ? "images/eye.svg" : "images/eye-slash.svg";
+});
+
+

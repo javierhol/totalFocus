@@ -104,11 +104,10 @@ a:focus {
   padding-left: 25px;
 }
 
-.navbar-brand span {
-  font-weight: bold;
-  color: #000000;
-  font-size: 24px;
-  text-transform: uppercase;
+.navbar-brand img{
+width: 90px;
+height: 70px;
+color: #18c77e;
 }
 
 .custom_nav-container {
@@ -131,7 +130,7 @@ a:focus {
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
   color: #ffffff;
-  background-color: #8019c8;
+  background-color: #18c77e;
 }
 
 .custom_nav-container .nav_search-btn {
@@ -237,7 +236,7 @@ a:focus {
 
 .user_optio_box a {
   margin-left: 15px;
-  color: #8019c8;
+  color: #18c77e;
 }
 
 /*end header section*/
