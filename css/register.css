@@ -95,6 +95,12 @@ h2 {
   top: 10px;
   transform: translateY(-120%);
 }
+.input-field input.filled~label {
+  font-size: 0.8rem;
+  top: 10px;
+  transform: translateY(-120%);
+}
+
  .error-message {
   color: #ff0033;
   font-size: 0.8rem;
