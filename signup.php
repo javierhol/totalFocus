@@ -6,6 +6,7 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
     $username = $_POST[ 'username' ];
     $email = $_POST[ 'email' ];
     $pass = $_POST[ 'password' ];
+    $img = 'http://bootdey.com/img/Content/avatar/avatar1.png';
 
     $email_check_query = "SELECT * FROM users WHERE email='$email'";
 
@@ -27,7 +28,7 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
 
             $hashed_password = password_hash( $pass, PASSWORD_DEFAULT );
 
-            $insert_query = "INSERT INTO users (username,email,pass) VALUES ('$username','$email','$hashed_password')";
+            $insert_query = "INSERT INTO users (username,email,pass,img) VALUES ('$username','$email','$hashed_password', '$img')";
 
             if ( mysqli_query( $conn, $insert_query ) ) {
 
