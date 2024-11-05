@@ -6,7 +6,7 @@ if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' ) {
     $username = $_POST[ 'username' ];
     $email = $_POST[ 'email' ];
     $pass = $_POST[ 'password' ];
-    $img = 'http://bootdey.com/img/Content/avatar/avatar1.png';
+    $img = 'https://bootdey.com/img/Content/avatar/avatar1.png';
 
     $email_check_query = "SELECT * FROM users WHERE email='$email'";
 
