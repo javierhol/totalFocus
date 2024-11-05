@@ -76,6 +76,9 @@
               <a href='wishlist.php' id="wishlist">
                 <i class='fa fa-heart' aria-hidden='true'></i>
               </a>
+              <a href='userProfile.php' id="profile">
+                <i class='fa fa-user-circle-o' aria-hidden='true'></i>
+              </a>
             </div>
           </div>
         </nav>
