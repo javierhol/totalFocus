@@ -11,16 +11,11 @@ getYear();
 /** google_map js **/
 function myMap() {
     var mapProp = {
-        center: new google.maps.LatLng(40.712775, -74.005973),
+        center: new google.maps.LatLng(40.416775, -3.703790), // Coordinates for Madrid, Spain
         zoom: 18,
     };
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
 }
-
-
-
-
-
 
 /** logout hidden if no exits id in localstorage**/
 
@@ -28,6 +23,7 @@ let logout = document.getElementById('logout');
 let login = document.getElementById('login');
 let wishlist = document.getElementById('wishlist');
 let cart = document.querySelectorAll('#cart');
+let profile = document.getElementById('profile');
 let si = document.getElementById('si');
 
 const id = localStorage.getItem('id');
@@ -35,10 +31,12 @@ const id = localStorage.getItem('id');
 if (id) {
     logout.style.display = 'block';
     wishlist.style.display = 'block';
+    profile.style.display = 'block';
     login.style.display = 'none';
 }else{
     logout.style.display = 'none';
     wishlist.style.display = 'none';
+    profile.style.display = 'none';
 }
 
 /** logout function **/
