@@ -18,65 +18,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = getConnect();
 
         try {
-            // Validar la contraseña actual
-            $passwordQuery = 'SELECT username, email, pass FROM users WHERE id = ?';
-            $passwordStmt = $conn->prepare($passwordQuery);
-            if (!$passwordStmt) {
-                throw new Exception('Error al preparar la consulta: ' . $conn->error);
-            }
-            $passwordStmt->bind_param('i', $userId);
-            $passwordStmt->execute();
-            $passwordResult = $passwordStmt->get_result();
-            $userData = $passwordResult->fetch_assoc();
+            $query = "SELECT * FROM users WHERE id = ?";
 
-            // Verificar si la contraseña es correcta
-            if (password_verify($currentPassword, $userData['pass'])) {
+            $statement = $conn->prepare($query);
 
-                // Verificar si el username y el email son diferentes a los actuales
-                if ($username === $userData['username'] && $email === $userData['email'] && empty($newPassword)) {
-                    echo json_encode(['status' => 'error', 'message' => 'No se realizaron cambios porque los datos no han cambiado']);
-                    return;
-                }
+            $statement->bind_param("i", $userId);
 
-                // Actualizar la nueva contraseña si se proporciona
-                if (!empty($newPassword)) {
-                    $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
-                    $updatePasswordQuery = 'UPDATE users SET pass = ? WHERE id = ?';
-                    $updatePasswordStmt = $conn->prepare($updatePasswordQuery);
-                    if (!$updatePasswordStmt) {
-                        throw new Exception('Error al preparar la consulta: ' . $conn->error);
-                    }
-                    $updatePasswordStmt->bind_param('si', $newPasswordHash, $userId);
-                    $updatePasswordStmt->execute();
-                    $updatePasswordStmt->close();
-                }
+            $statement->execute();
 
-                // Actualizar otros datos del usuario (username, email)
-                if ($username !== $userData['username'] || $email !== $userData['email']) {
-                    $query = 'UPDATE users SET username = ?, email = ? WHERE id = ?';
-                    $stmt = $conn->prepare($query);
-                    if (!$stmt) {
-                        throw new Exception('Error al preparar la consulta: ' . $conn->error);
-                    }
-                    $stmt->bind_param('ssi', $username, $email, $userId);
-                    $stmt->execute();
-                }
+            $result = $statement->get_result();
 
-                // Verificar si la consulta de actualización afectó alguna fila
-                if ($stmt->affected_rows > 0 || !empty($newPassword)) {
-                    echo json_encode(['status' => 'success', 'message' => 'Datos actualizados correctamente']);
+            if ($result->num_rows > 0) {
+                $userData = $result->fetch_assoc();
+                $password = $userData['pass'];
+
+                if (password_verify($currentPassword, $password)) {
+                    $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+                    $query = "UPDATE users SET pass = ? WHERE id = ?";
+
+                    $statement = $conn->prepare($query);
+
+                    $statement->bind_param("si", $newPassword, $userId);
+
+                    $statement->execute();
+
+                    echo json_encode(['status' => 'success', 'message' => 'Contraseña actualizada correctamente']);
                 } else {
-                    echo json_encode(['status' => 'error', 'message' => 'No se realizaron cambios']);
+                    echo json_encode(['status' => 'error', 'message' => 'La contraseña actual no coincide']);
                 }
-
-                $stmt->close();
-                $conn->close();
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Contraseña actual incorrecta']);
+                echo json_encode(['status' => 'error', 'message' => 'No se encontró ningún usuario con el ID proporcionado']);
             }
         } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => 'Error: ' . $e->getMessage()]);
+            echo json_encode(['status' => 'error', 'message' => 'Error de conexión: ' . $e->getMessage()]);
+        } finally {
+            $statement->close();
+            $conn->close();
         }
+
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Usuario no autenticado']);
     }
