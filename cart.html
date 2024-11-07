@@ -4,10 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Shopping Cart</title>
+  <link rel='icon' href='images/fevicon/logo.png' type='image/gif' />
+  <title>| TotalFocus</title>
   <link rel="stylesheet" href="css/cart.css">
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+    <!-- font awesome style -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+
+    <link rel='stylesheet' type='text/css' href='css/card-shop.css' />
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" />
 </head>
 <body>
+
+  <div class="hero_area">
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.php">
+          <img class="image-tittle" src="images/title.png" alt="Logo TotalFocus">
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  ">
+              <li class="nav-item ">
+                <a class="nav-link" href="index.php">Inicio <span class="sr-only">(current)</span></a>
+              </li>
+             
+              <li class="nav-item ">
+                <a class="nav-link" href="product.php">Productos</a>
+              </li>
+             
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contactanos</a>
+              </li>
+            </ul>
+            <div class='user_optio_box'>
+              <a href='login.html' id="login">
+                <i class='fa fa-user' aria-hidden='true'></i>
+              </a>
+              <a href='' id="logout">
+                <i class="fa fa-sign-out" aria-hidden='true'></i>
+              </a>
+              <a href='cart.html' id='cart'>
+                <i class='fa fa-shopping-cart' aria-hidden='true'></i>
+              </a>
+              <a href='wishlist.php' id="wishlist">
+                <i class='fa fa-heart' aria-hidden='true'></i>
+              </a>
+              <a href='userProfile.php' id="profile">
+                <i class='fa fa-user-circle-o' aria-hidden='true'></i>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
 
   <div class="cart-container">
     <h1>Shopping Cart</h1>
@@ -50,6 +114,8 @@
       <button class="checkout-btn">Proceed to Checkout</button>
     </div>
   </div>
+
+  <script type="text/javascript" src="js/custom.js"></script>
 
 </body>
 </html>
