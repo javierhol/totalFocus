@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('edit-profile');
     let newPass = document.getElementById('newPassword');
 
+
+
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -47,14 +49,18 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+
 let logout = document.getElementById('logout');
 let login = document.getElementById('login');
 let wishlist = document.getElementById('wishlist');
 let cart = document.querySelectorAll('#cart');
 let profile = document.getElementById('profile');
-let si = document.getElementById('si');
 
 const id = localStorage.getItem('id');
+
+if(!id|| id === 'null'){
+    window.location.href = 'index.php';
+}
 
 if (id) {
     logout.style.display = 'block';
@@ -69,8 +75,9 @@ if (id) {
 
 /** logout function **/
 logout.addEventListener('click', function () {
-    localStorage.removeItem('id');
+    localStorage.clear();
     window.location.href = 'index.php';
+    window.location.reload();
 });
 
 cart.forEach(function (element) {
@@ -94,6 +101,36 @@ cart.forEach(function (element) {
 });
 
 
-si.addEventListener('click', function () {
-    alert('¡Gracias por tu compra!');
+const inputs = document.querySelectorAll('.input-field input');
+
+inputs.forEach(input => {
+  input.addEventListener('blur', () => {
+    if (input.value.trim() !== "") {
+      input.classList.add('filled');
+    } else {
+      input.classList.remove('filled');
+    }
+  });
+});
+
+const togglePassword = document.querySelector("#togglePassword");
+const togglePassword2 = document.querySelector("#togglePassword2");
+const password = document.querySelector("#currentPassword");
+const password2 = document.querySelector("#newPassword");
+
+togglePassword.addEventListener("click", function () {
+  // Alternar el tipo de input entre 'password' y 'text'
+  const type = password.getAttribute("type") === "password" ? "text" : "password";
+  password.setAttribute("type", type);
+  
+  // Cambiar el ícono de ojo cuando el campo sea visible u oculto
+  this.src = type === "password" ? "images/eye2.svg" : "images/eye-slash2.svg";
+});
+togglePassword2.addEventListener("click", function () {
+  // Alternar el tipo de input entre 'password' y 'text'
+  const type = password2.getAttribute("type") === "password" ? "text" : "password";
+  password2.setAttribute("type", type);
+  
+  // Cambiar el ícono de ojo cuando el campo sea visible u oculto
+  this.src = type === "password" ? "images/eye2.svg" : "images/eye-slash2.svg";
 });
