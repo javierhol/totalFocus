@@ -28,6 +28,8 @@ let si = document.getElementById('si');
 
 const id = localStorage.getItem('id');
 
+
+
 if (id) {
     logout.style.display = 'block';
     wishlist.style.display = 'block';
@@ -41,8 +43,8 @@ if (id) {
 
 /** logout function **/
 logout.addEventListener('click', function () {
-    localStorage.removeItem('id');
-    window.location.href = 'index.php';
+       localStorage.clear();
+       window.location.href = 'index.php'; 
 });
 
 cart.forEach(function (element) {
