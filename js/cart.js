@@ -8,6 +8,10 @@ let si = document.getElementById('si');
 
 const id = localStorage.getItem('id');
 
+if(!id|| id === 'null'){
+    window.location.href = 'index.php';
+}
+
 if (id) {
     logout.style.display = 'block';
     wishlist.style.display = 'block';
