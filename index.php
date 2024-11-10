@@ -70,7 +70,7 @@
               <a href='' id="logout">
                 <i class="fa fa-sign-out" aria-hidden='true'></i>
               </a>
-              <a href='cart.html' id='cart'>
+              <a href='cart.php' id='cart'>
                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
               </a>
               <a href='wishlist.php' id="wishlist">
@@ -310,7 +310,7 @@
                   <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
                   <div class='product-links'>
                     <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
-                    <a href=''><i class='fa fa-shopping-cart' id='cart'></i></a>
+                    <a href='javascript:void(0)' class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart'></i></a>
                   </div>
                 </div>
               </div>
@@ -398,6 +398,7 @@
   <script type='text/javascript' src='js/bootstrap.js'></script>
   <!-- custom js -->
   <script type='text/javascript' src='js/custom.js'></script>
+  <script type='text/javascript' src='js/addCart.js' defer></script>
   <script type="text/javascript" src="js/contact.js"></script>
   <!-- Google Map -->
   <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap'>
@@ -408,4 +409,5 @@
 
 </body>
 
+</html>
 </html>

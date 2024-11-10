@@ -24,7 +24,6 @@ let login = document.getElementById('login');
 let wishlist = document.getElementById('wishlist');
 let cart = document.querySelectorAll('#cart');
 let profile = document.getElementById('profile');
-let si = document.getElementById('si');
 
 const id = localStorage.getItem('id');
 
@@ -61,13 +60,8 @@ cart.forEach(function (element) {
                 }, 100);
             });
         }else{
-            //delete the event.preventDefault() to redirect to the cart page
-            window.location.href = 'cart.html';
+             window.location.href = 'cart.php';
         }
     });
 });
 
-
-si.addEventListener('click', function () {
-    alert('¡Gracias por tu compra!');
-});

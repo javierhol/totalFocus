@@ -70,8 +70,9 @@
               <a href='' id="logout">
                 <i class="fa fa-sign-out" aria-hidden='true'></i>
               </a>
-              <a href='cart.html' id='cart'>
+              <a href='cart.php' id='cart'>
                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
+                <span id="cart-count" class="cart-count">0</span>
               </a>
               <a href='wishlist.php' id="wishlist">
                 <i class='fa fa-heart' aria-hidden='true'></i>
@@ -98,7 +99,7 @@ if ($conn->connect_error) {
 }
 
 function getProducts($conn, $limit, $offset) {
-    $sql = "SELECT name, price, img FROM products LIMIT $limit OFFSET $offset";
+    $sql = "SELECT id, name, price, img FROM products LIMIT $limit OFFSET $offset";
     return $conn->query($sql);
 }
 
@@ -127,7 +128,7 @@ function getProducts($conn, $limit, $offset) {
                       <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
                       <div class='product-links'>
                         <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
-                        <a href=''><i class='fa fa-shopping-cart' id='cart'></i></a>
+                        <a href='javascript:void(0)'class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart'></i></a>
                       </div>
                     </div>
                   </div>
@@ -382,6 +383,7 @@ $conn->close();
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- custom js -->
   <script type="text/javascript" src="js/custom.js"></script>
+  <script type="text/javascript" src="js/addCart.js"></script>
 
 
 </body>

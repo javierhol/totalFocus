@@ -4,7 +4,8 @@ let login = document.getElementById('login');
 let wishlist = document.getElementById('wishlist');
 let cart = document.querySelectorAll('#cart');
 let profile = document.getElementById('profile');
-let si = document.getElementById('si');
+
+
 
 const id = localStorage.getItem('id');
 
@@ -44,12 +45,43 @@ cart.forEach(function (element) {
             });
         }else{
             //delete the event.preventDefault() to redirect to the cart page
-            window.location.href = 'cart.html';
+            window.location.href = 'cart.php';
         }
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const clearCart = document.querySelectorAll('.remove-btn');
+    // Eliminar productos del carrito
 
-si.addEventListener('click', function () {
-    alert('¡Gracias por tu compra!');
-});
+    clearCart.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const productId = this.getAttribute('data-id');
+          const productData = { id: productId };
+    
+          fetch('remove_cart.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(productData)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              // Actualizar el contador del carrito
+            //   let cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
+            //   cartCount -= 1;  // Decrementa la cantidad
+            //   localStorage.setItem('cartCount', cartCount); // Guarda la cantidad actualizada
+            //   updateCartCount();  // Refresca el contador en el icono
+              alert('Producto eliminado del carrito.');
+                window.location.reload();
+            } else {
+              alert('Hubo un error al eliminar el producto.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
+      });
+  });
+  
