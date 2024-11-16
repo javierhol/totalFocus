@@ -1,4 +1,5 @@
 <?php include 'config.php'; ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -41,13 +42,35 @@
       <div class='container-fluid'>
         <nav class='navbar navbar-expand-lg custom_nav-container '>
           <a class='navbar-brand' href='index.html'>
-          <img class="image-tittle" src="images/title.png" alt="Logo TotalFocus">
+            <img class="image-tittle" src="images/title.png" alt="Logo TotalFocus">
           </a>
 
           <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarSupportedContent'
             aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
             <span class=''> </span>
           </button>
+          <?php
+          require_once 'connect.php';
+
+          $conn = getConnect();
+          session_start();
+
+          // Verificar si el usuario está autenticado
+          $totalProducts = 0;
+          if (isset($_SESSION['user'])) {
+            $userId = $_SESSION['user'];
+
+            // Consulta para contar los productos en el carrito
+            $sql = "SELECT SUM(quantity) AS total_products FROM cart WHERE user_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+            $stmt->bind_result($totalProducts);
+            $stmt->fetch();
+            $stmt->close();
+          }
+          $conn->close();
+          ?>
 
           <div class='collapse navbar-collapse' id='navbarSupportedContent'>
             <ul class='navbar-nav  '>
@@ -72,6 +95,7 @@
               </a>
               <a href='cart.php' id='cart'>
                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
+                <span id="cart-count" class="cart-count"><?php echo $totalProducts ? : 0; ?></span>
               </a>
               <a href='wishlist.php' id="wishlist">
                 <i class='fa fa-heart' aria-hidden='true'></i>
@@ -204,7 +228,7 @@
 
   function getProducts($conn, $limit, $offset)
   {
-    $sql = "SELECT name, price, img FROM products LIMIT $limit OFFSET $offset";
+    $sql = "SELECT id, name, price, img FROM products LIMIT $limit OFFSET $offset";
     return $conn->query($sql);
   }
 
@@ -234,7 +258,7 @@
                   <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
                   <div class='product-links' id='cart2'>
                     <a href=''id='wishlist'><i class='fa fa-heart'></i></a>
-                    <a href='' id='cart'><i class='fa fa-shopping-cart'></i></a>
+                     <a href='javascript:void(0)'class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart' ></i></a>
                   </div>
                 </div>
               </div>
@@ -273,7 +297,7 @@
                   <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
                   <div class='product-links'>
                     <a href=''id='wishlist'><i class='fa fa-heart' ></i></a>
-                    <a href=''id='cart'><i class='fa fa-shopping-cart' ></i></a>
+                    <a href='javascript:void(0)'class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart' ></i></a>
                   </div>
                 </div>
               </div>
@@ -342,7 +366,7 @@
         <div class='col-md-6'>
           <div class='form_container'>
             <form action='' id="contact-form">
-            <div>
+              <div>
                 <input name="name" id="name" type="text" placeholder="Tu nombre" />
               </div>
               <div>
@@ -410,4 +434,5 @@
 </body>
 
 </html>
+
 </html>

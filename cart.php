@@ -92,7 +92,7 @@ if (isset($_SESSION['user'])) {
     // Consulta para obtener los productos en el carrito del usuario actual
     // usando un JOIN entre las tablas cart y products
     $cart_query = "
-      SELECT cart.amount, products.id, products.name, products.price, products.img
+      SELECT cart.quantity, products.id, products.name, products.price, products.img
       FROM cart
       INNER JOIN products ON cart.product_id = products.id
       WHERE cart.user_id = $userId";
@@ -124,11 +124,11 @@ if (isset($_SESSION['user'])) {
               <h3><?= $item['name']; ?></h3>
               <p>$<?= number_format($item['price'], 2); ?></p>
               <div class="cart-item-quantity">
-              <label for="amount-<?= $item['id']; ?>">Amount:</label>
-              <input type="number" id="amount-<?= $item['id']; ?>" value="<?= $item['amount']; ?>" min="1">
+              <label for="quantity-<?= $item['id']; ?>">Cantidad:</label>
+              <input type="number" id="quantity-<?= $item['id']; ?>" value="<?= $item['quantity']; ?>" min="1">
               </div>
             </div>
-            <button class="remove-btn" data-id="<?= $item['id']; ?>">Remove</button>
+            <button class="remove-btn" data-id="<?= $item['id']; ?>">Eliminar</button>
           </div>
         <?php endforeach; ?>
       <?php else: ?>
@@ -144,21 +144,22 @@ if (isset($_SESSION['user'])) {
       $shipping = 5.00; // Precio de envío fijo
       if (!empty($cart_items)) {
         foreach ($cart_items as $item) {
-          $subtotal += $item['price'] * $item['amount'];
+          $subtotal += $item['price'] * $item['quantity'];
         }
       }
       $total = $subtotal + $shipping;
       ?>
-      <h2>Cart Summary</h2>
+      <h2>Resumen del Carrito</h2>
       <p>Subtotal: $<?= number_format($subtotal, 2); ?></p>
-      <p>Shipping: $<?= number_format($shipping, 2); ?></p>
+      <p>Envio: $<?= number_format($shipping, 2); ?></p>
       <p><strong>Total: $<?= number_format($total, 2); ?></strong></p>
-      <button class="checkout-btn">Proceed to Checkout</button>
+      <button class="checkout-btn">Comprar</button>
     </div>
   </div>
 
 
   <script type="text/javascript" src="js/cart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script> 
 
 </body>
 

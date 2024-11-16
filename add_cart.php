@@ -10,7 +10,7 @@ session_start();
 if(isset($_SESSION['user'])) {
     $userId = $_SESSION['user'];
     $productId = $data['id'];
-    $amount = 1;
+    $quantity = 1;
 
     // Verificar si el producto ya está en el carrito
     $sql = "SELECT amount FROM cart WHERE user_id = ? AND product_id = ?";
@@ -25,7 +25,7 @@ if(isset($_SESSION['user'])) {
         $stmt->fetch();
         $newAmount = $currentAmount + $amount;
 
-        $updateSql = "UPDATE cart SET amount = ? WHERE user_id = ? AND product_id = ?";
+        $updateSql = "UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?";
         $updateStmt = $conn->prepare($updateSql);
         $updateStmt->bind_param("iii", $newAmount, $userId, $productId);
 
@@ -38,9 +38,9 @@ if(isset($_SESSION['user'])) {
         $updateStmt->close();
     } else {
         // Si no existe, insertar un nuevo registro
-        $insertSql = "INSERT INTO cart (user_id, product_id, amount) VALUES (?, ?, ?)";
+        $insertSql = "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
         $insertStmt = $conn->prepare($insertSql);
-        $insertStmt->bind_param("iii", $userId, $productId, $amount);
+        $insertStmt->bind_param("iii", $userId, $productId, $quantity);
 
         if ($insertStmt->execute()) {
             echo json_encode(['success' => true, 'message' => 'Producto agregado al carrito']);

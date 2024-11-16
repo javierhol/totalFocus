@@ -49,6 +49,8 @@
             <span class=""> </span>
           </button>
 
+          
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  ">
               <li class="nav-item ">
@@ -165,7 +167,7 @@ function getProducts($conn, $limit, $offset) {
                   <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
                   <div class='product-links'>
                     <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
-                    <a href=''><i class='fa fa-shopping-cart' id='cart'></i></a>
+                    <a href='javascript:void(0)'class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart' ></i></a>
                   </div>
                 </div>
               </div>
@@ -202,7 +204,7 @@ function getProducts($conn, $limit, $offset) {
                       <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
                       <div class='product-links'>
                         <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
-                        <a href=''><i class='fa fa-shopping-cart' id='cart'></i></a>
+                        <a  href='javascript:void(0)'class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart'></i></a>
                       </div>
                     </div>
                   </div>

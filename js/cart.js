@@ -4,7 +4,7 @@ let login = document.getElementById('login');
 let wishlist = document.getElementById('wishlist');
 let cart = document.querySelectorAll('#cart');
 let profile = document.getElementById('profile');
-
+let checkout = document.querySelector('.checkout-btn');
 
 
 const id = localStorage.getItem('id');
@@ -85,3 +85,32 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
   
+  //process the checkout false interactivity 
+ 
+  checkout.addEventListener('click',function(){
+    simulatePurchase();
+  });
+
+  function simulatePurchase(){
+    swal({
+        title: 'Procesando compra',
+        text: 'Espere un momento por favor...',
+        imageUrl: 'images/loader.gif',
+        imageWidth: 150,
+        imageHeight: 150,
+        imageAlt: 'Loading',
+        showConfirmButton: false,
+        allowOutsideClick: false
+    });
+    setTimeout(() => {
+        swal.close();
+        swal({
+            title: 'Compra exitosa',
+            text: '¡Gracias por su compra!',
+            icon: 'success',
+            timer: 2000
+        }).then(() => {
+            window.location.href = 'index.php';
+        });
+    }, 2000);
+  }
