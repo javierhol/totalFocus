@@ -52,7 +52,7 @@ if ($tableCheck->num_rows == 0) {
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT,
         product_id INT,
-        amount INT
+        quantity INT
         );
 
         CREATE TABLE IF NOT EXISTS shopping (
