@@ -1,3 +1,53 @@
+<?php
+require_once 'queries.php';
+session_start();
+
+$totalProducts = 0;
+if (isset($_SESSION['user'])) {
+  $userId = $_SESSION['user'];
+  $totalProducts = getCartTotal($conn, $userId);
+}
+
+// Renderizar productos destacados
+$featuredProducts = getProducts($conn, 3, 0);
+
+// Renderizar productos en oferta
+$discountedProducts = getProducts($conn, 3, 3);
+
+// Renderizar productos recién llegados
+$newArrivals = getProducts($conn, 3, 6);
+
+$conn->close();
+
+function renderProducts($products)
+{
+  if ($products->num_rows > 0) {
+    while ($row = $products->fetch_assoc()) {
+      echo "
+            <div class='product-card'>
+                <div class='badge'>Hot</div>
+                <div class='product-tumb'>
+                    <img src='{$row['img']}' alt=''>
+                </div>
+                <div class='product-details'>
+                    <h4><a href=''>{$row['name']}</a></h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
+                    <div class='product-bottom-details'>
+                        <div class='product-price'>$" . number_format($row['price'], 2) . "</div>
+                        <div class='product-links'>
+                            <a href='' id='wishlist'><i class='fa fa-heart'></i></a>
+                            <a href='javascript:void(0)' class='add-cart' data-id='{$row['id']}'><i class='fa fa-shopping-cart'></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+    }
+  } else {
+    echo "<p>No hay productos disponibles.</p>";
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -42,27 +92,26 @@
       <div class="container-fluid">
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.php">
-          <img class="image-tittle" src="images/title.png" alt="Logo TotalFocus">
+            <img class="image-tittle" src="images/title.png" alt="Logo TotalFocus">
           </a>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
           </button>
-
-          
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav  ">
               <li class="nav-item ">
                 <a class="nav-link" href="index.php">Inicio <span class="sr-only">(current)</span></a>
               </li>
-             
+
               <li class="nav-item active">
                 <a class="nav-link" href="product.php">Productos</a>
               </li>
-             
+
               <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contactanos</a>
+                <a class="nav-link" href="contactMe.php">Contactanos</a>
               </li>
             </ul>
             <div class='user_optio_box'>
@@ -74,7 +123,7 @@
               </a>
               <a href='cart.php' id='cart'>
                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
-                <span id="cart-count" class="cart-count">0</span>
+                <span id="cart-count" class="cart-count"><?php echo $totalProducts ? : 0; ?></span>
               </a>
               <a href='wishlist.php' id="wishlist">
                 <i class='fa fa-heart' aria-hidden='true'></i>
@@ -91,138 +140,38 @@
   </div>
 
   <!-- product section -->
-  <?php
-include 'connect.php';
-
-$conn = getConnect();
-
-if ($conn->connect_error) {
-    die('Error de conexión: ' . $conn->connect_error);
-}
-
-function getProducts($conn, $limit, $offset) {
-    $sql = "SELECT id, name, price, img FROM products LIMIT $limit OFFSET $offset";
-    return $conn->query($sql);
-}
-
-?>
-
-<section class='product_section '>
+  <section class='product_section'>
     <div class='container'>
-        <div class='product_heading'>
-            <h2>Cámaras Destacadas</h2>
-        </div>
-        <div class='product_container'>
-            <?php
-            $result = getProducts($conn, 3, 0); 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo " <div class='product-card'>
-                  <div class='badge'>Hot</div>
-                  <div class='product-tumb'>
-                    <img src=" . $row['img'] . " alt=''>
-                  </div>
-                  <div class='product-details'>
-                    <span class='product-catagory'>Women,bag</span>
-                    <h4><a href=''>" . $row['name'] . "</a></h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
-                    <div class='product-bottom-details'>
-                      <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
-                      <div class='product-links'>
-                        <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
-                        <a href='javascript:void(0)'class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart'></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>";
-                }
-            } else {
-                echo '<p>No hay productos disponibles.</p>';
-            }
-            ?>
-        </div>
+      <div class='product_heading'>
+        <h2>Cámaras Destacadas</h2>
+      </div>
+      <div class='product_container'>
+        <?php renderProducts($featuredProducts); ?>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class='product_section '>
+  <section class='product_section'>
     <div class='container'>
-        <div class='product_heading'>
-            <h2>Cámaras en Oferta</h2>
-        </div>
-        <div class='product_container'>
-            <?php
-            $result = getProducts($conn, 3, 3);
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo " <div class='product-card'>
-              <div class='badge'>Ofert</div>
-              <div class='product-tumb'>
-                <img src=" . $row['img'] . " alt=''>
-              </div>
-              <div class='product-details'>
-                <span class='product-catagory'>Women,bag</span>
-                <h4><a href=''>" . $row['name'] . "</a></h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
-                <div class='product-bottom-details'>
-                  <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
-                  <div class='product-links'>
-                    <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
-                    <a href='javascript:void(0)'class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart' ></i></a>
-                  </div>
-                </div>
-              </div>
-	          </div>";
-                }
-            } else {
-                echo "<p>No hay más productos disponibles.</p>";
-            }
-            ?>
-        </div>
+      <div class='product_heading'>
+        <h2>Cámaras en Oferta</h2>
+      </div>
+      <div class='product_container'>
+        <?php renderProducts($discountedProducts); ?>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class='product_section '>
+  <section class='product_section'>
     <div class='container'>
-        <div class='product_heading'>
-            <h2>New Arrivals</h2>
-        </div>
-        <div class='product_container'>
-            <?php
-            $result = getProducts($conn, 3, 6); 
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                  echo " <div class='product-card'>
-                  <div class='badge'>Newly</div>
-                  <div class='product-tumb'>
-                    <img src=" . $row['img'] . " alt=''>
-                  </div>
-                  <div class='product-details'>
-                    <span class='product-catagory'>Women,bag</span>
-                    <h4><a href=''>" . $row['name'] . "</a></h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
-                    <div class='product-bottom-details'>
-                      <div class='product-price'><small>$96.00</small>" . number_format($row['price'], 2) . "</div>
-                      <div class='product-links'>
-                        <a href=''><i class='fa fa-heart' id='wishlist'></i></a>
-                        <a  href='javascript:void(0)'class='add-cart' data-id='" . $row['id'] . "'><i class='fa fa-shopping-cart'></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>";
-                }
-            } else {
-                echo "<p>No hay más productos disponibles.</p>";
-            }
-            ?>
-        </div>
+      <div class='product_heading'>
+        <h2>Recien Llegados</h2>
+      </div>
+      <div class='product_container'>
+        <?php renderProducts($newArrivals); ?>
+      </div>
     </div>
-</section>
-
-<?php
-// Cerrar la conexión
-$conn->close();
-?>
-
+  </section>
 
   <!-- end product section -->
 
@@ -273,7 +222,8 @@ $conn->close();
               Información
             </h5>
             <p>
-            Tiene como objetivo principal la satisfacción de nuestros clientes, ofreciendo productos de calidad y un servicio personalizado.
+              Tiene como objetivo principal la satisfacción de nuestros clientes, ofreciendo productos de calidad y un
+              servicio personalizado.
             </p>
           </div>
         </div>
@@ -379,8 +329,9 @@ $conn->close();
   <!-- jQery -->
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <!-- popper js -->
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
   <!-- bootstrap js -->
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <!-- custom js -->
