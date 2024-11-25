@@ -1,13 +1,18 @@
 <?php
 // Incluir el archivo de conexión a la base de datos
 require_once 'connect.php';
+require_once 'queries.php';
 session_start();
+
+$totalProducts = 0;
 
 if (isset($_SESSION['user'])) {
     $userId = $_SESSION['user'];
+    $conn = getConnect();
+    $totalProducts = getCartTotal($conn, $userId);
 
     try {
-        $conn = getConnect();
+
 
         $query = 'SELECT * FROM users WHERE id = ?';
 
@@ -79,7 +84,7 @@ if (isset($_SESSION['user'])) {
                             </li>
 
                             <li class='nav-item'>
-                                <a class='nav-link' href='contact.html'>Contactanos</a>
+                                <a class='nav-link' href='contactMe.php'>Contactanos</a>
                             </li>
                         </ul>
                         <div class='user_optio_box'>
@@ -91,6 +96,7 @@ if (isset($_SESSION['user'])) {
                             </a>
                             <a href='cart.html' id='cart'>
                                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
+                                <span id="cart-count" class="cart-count"><?php echo $totalProducts ? : 0; ?></span>
                             </a>
                             <a href='wishlist.php' id='wishlist'>
                                 <i class='fa fa-heart' aria-hidden='true'></i>
@@ -139,19 +145,27 @@ if (isset($_SESSION['user'])) {
                             </div>
                             <div class='mb-3 input-field'>
                                 <label class='small mb-1' for='currentPassword'>Contraseña Actual</label>
-                                <input class='form-control ' id='currentPassword' type='password'
-                                    name='currentPassword' placeholder='Contraseña Actual'>
-                                <span class='toggle-password'>
+                                <input class='form-control ' id='currentPassword' type='password' name='currentPassword'
+                                    placeholder='Contraseña Actual'>
+                                <span class='toggle-password toggle'>
                                     <img src='images/eye2.svg' alt='Mostrar/Ocultar' id='togglePassword'>
                                 </span>
                             </div>
                             <div class='mb-3 input-field'>
                                 <label class='small mb-1' for='newPassword'>Nueva Contraseña</label>
-                                <input class='form-control ' id='newPassword' type='password'
-                                    name='newPassword' placeholder='Nueva Contraseña'>                            
-                                    <span class='toggle-password2'>
-                                        <img src='images/eye2.svg' alt='Mostrar/Ocultar' id='togglePassword2'>
-                                    </span>
+                                <input class='form-control ' id='newPassword' type='password' name='newPassword'
+                                    placeholder='Nueva Contraseña'>
+                                <span class='toggle-password2 toggle'>
+                                    <img src='images/eye2.svg' alt='Mostrar/Ocultar' id='togglePassword2'>
+                                </span>
+                            </div>
+                            <div class='mb-3 input-field'>
+                                <label class='small mb-1' for='confirmPassword'>Confirma la contraseña</label>
+                                <input class='form-control ' id='confirmPassword' type='password' name='confirmPassword'
+                                    placeholder='Confirma tu Contraseña'>
+                                <span class='toggle-password3 toggle'>
+                                    <img src='images/eye2.svg' alt='Mostrar/Ocultar' id='togglePassword3'>
+                                </span>
                             </div>
                             <button class='btn btn-success' type='submit'>Guardar Cambios</button>
                         </div>
