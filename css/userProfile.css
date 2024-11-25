@@ -341,25 +341,36 @@ body {
 .input-field .toggle-password {
   position: absolute;
   right: 20px;
-  top: 51%;
+  top: 42%;
   transform: translateY(-50%);
   cursor: pointer;
 }
 .input-field .toggle-password2 {
   position: absolute;
   right: 20px;
-  top: 74%;
+  top: 61%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.input-field .toggle-password3 {
+  position: absolute;
+  right: 20px;
+  top: 79%;
   transform: translateY(-50%);
   cursor: pointer;
 }
 
-.input-field .toggle-password img {
+.input-field .toggle img {
   width: 20px;
   height: 20px;
 
 }
-.input-field .toggle-password2 img {
-  width: 20px;
-  height: 20px;
 
+.user_optio_box a .cart-count {
+  position: absolute;
+  background-color: #18c77e;
+  color: #000000;
+  border-radius: 100%;
+  padding: 0px 4px;
+  font-size: 10px;
 }
