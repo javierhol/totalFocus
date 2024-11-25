@@ -58,8 +58,11 @@ if ($tableCheck->num_rows == 0) {
         CREATE TABLE IF NOT EXISTS shopping (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT,
+        address VARCHAR(255),
         product_id INT,
-        amount INT);
+        quantity INT,
+        shipping_date TIMESTAMP
+        );
     ";
 
     if ($conn->multi_query($sqlCreateTables) === TRUE) {
