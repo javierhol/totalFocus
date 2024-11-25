@@ -5,6 +5,10 @@ let wishlist = document.getElementById('wishlist');
 let cart = document.querySelectorAll('#cart');
 let profile = document.getElementById('profile');
 let checkout = document.querySelector('.checkout-btn');
+const checkoutModal = document.getElementById('checkoutModal');
+const checkoutBtn = document.querySelector('.checkout-btn');
+const closeModal = document.querySelector('.close');
+const confirmCheckout = document.getElementById('confirmCheckout');
 
 
 const id = localStorage.getItem('id');
@@ -87,30 +91,94 @@ document.addEventListener('DOMContentLoaded', function() {
   
   //process the checkout false interactivity 
  
-  checkout.addEventListener('click',function(){
-    simulatePurchase();
+ 
+  
+  checkout.addEventListener('click', function () {
+    checkoutModal.style.display = 'block';
   });
 
-  function simulatePurchase(){
-    swal({
-        title: 'Procesando compra',
-        text: 'Espere un momento por favor...',
-        imageUrl: 'images/loader.gif',
-        imageWidth: 150,
-        imageHeight: 150,
-        imageAlt: 'Loading',
-        showConfirmButton: false,
-        allowOutsideClick: false
-    });
-    setTimeout(() => {
-        swal.close();
-        swal({
-            title: 'Compra exitosa',
-            text: '¡Gracias por su compra!',
-            icon: 'success',
-            timer: 2000
-        }).then(() => {
-            window.location.href = 'index.php';
-        });
-    }, 2000);
+  closeModal.addEventListener('click', () => {
+    checkoutModal.style.display = 'none';
+  });
+
+  window.addEventListener('click', (event) => {
+    if (event.target === checkoutModal) {
+      checkoutModal.style.display = 'none';
+    }
+  });
+
+  // Manejar confirmación de compra
+confirmCheckout.addEventListener('click', () => {
+  const cardNumber = document.querySelector('#cardNumber').value;
+  const cardName = document.querySelector('#cardName').value;
+  const expirationDate = document.querySelector('#expirationDate').value;
+  const cvv = document.querySelector('#cvv').value;
+  const address = document.querySelector('#address').value;
+
+  // Validar datos
+  if (!cardNumber || !cardName || !expirationDate || !cvv || !address) {
+    alert('Por favor, completa todos los campos.');
+    return;
   }
+
+  // Enviar datos al servidor
+  fetch('processCheckout.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      paymentInfo: {
+        cardNumber,
+        cardName,
+        expirationDate,
+        cvv,
+        address,
+      },
+      cartItems,
+    }),
+    
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        simulatePurchase();
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('Hubo un problema al procesar la compra.');
+    });
+
+  // Cerrar el modal después de confirmar
+  checkoutModal.style.display = 'none';
+ });
+  
+
+function simulatePurchase(){
+  swal({
+      title: 'Procesando compra',
+      text: 'Espere un momento por favor...',
+      imageUrl: 'images/loader.gif',
+      imageWidth: 150,
+      imageHeight: 150,
+      imageAlt: 'Loading',
+      showConfirmButton: false,
+      allowOutsideClick: false
+  });
+  setTimeout(() => {
+      swal.close();
+      swal({
+          title: 'Compra exitosa',
+          text: '¡Gracias por su compra!',
+          icon: 'success',
+          timer: 2000
+      }).then(() => {
+         window.location.reload();
+      });
+  }, 2000);
+}
+
+  
