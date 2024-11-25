@@ -249,6 +249,15 @@ color: #18c77e;
   color: #f40909;
 }
 
+.user_optio_box a .cart-count {
+  position: absolute;
+  background-color: #18c77e;
+  color: #000000;
+  border-radius: 100%;
+  padding: 0px 4px;
+  font-size: 10px;
+}
+
 /*end header section*/
 /* slider section */
 .carousel-item img {
