@@ -102,3 +102,12 @@
     max-width: 1170px;
   }
 }
+
+.user_optio_box a .cart-count {
+  position: absolute;
+  background-color: #18c77e;
+  color: #000000;
+  border-radius: 100%;
+  padding: 0px 4px;
+  font-size: 10px;
+}
