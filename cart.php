@@ -1,3 +1,18 @@
+<?php
+require_once 'queries.php';
+session_start();
+
+// Inicializar variables
+$totalProducts = 0;
+$cartItems = [];
+
+
+if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']['id'];
+    $totalProducts = getCartTotal($conn, $userId);
+    $cartItems = getCartItems($conn, $userId);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,9 +29,11 @@
 
   <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
+  
 
   <link rel='stylesheet' type='text/css' href='css/card-shop.css' />
   <!-- responsive style -->
@@ -49,7 +66,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contactanos</a>
+                <a class="nav-link" href="contactMe.php">Contactanos</a>
               </li>
             </ul>
             <div class='user_optio_box'>
@@ -61,13 +78,16 @@
               </a>
               <a href='cart.php' id='cart'>
                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
-                <span id="cart-count" class="cart-count">0</span>
+                <span id="cart-count" class="cart-count"><?php echo $totalProducts ? : 0; ?></span>
               </a>
               <a href='wishlist.php' id="wishlist">
                 <i class='fa fa-heart' aria-hidden='true'></i>
               </a>
               <a href='userProfile.php' id="profile">
                 <i class='fa fa-user-circle-o' aria-hidden='true'></i>
+              </a>
+              <a href='buys.php' id="profile">
+                <i class='fa fa-money' aria-hidden='true'></i>
               </a>
             </div>
           </div>
@@ -77,55 +97,19 @@
     <!-- end header section -->
   </div>
 
-  <?php
-// Incluir archivo de conexión
-require_once 'connect.php';
-
-// Conectar a la base de datos
-$conn = getConnect();
-
-// Verificar si el usuario está en la sesión
-session_start();
-if (isset($_SESSION['user'])) {
-    $userId = $_SESSION['user']['id'];
-
-    // Consulta para obtener los productos en el carrito del usuario actual
-    // usando un JOIN entre las tablas cart y products
-    $cart_query = "
-      SELECT cart.quantity, products.id, products.name, products.price, products.img
-      FROM cart
-      INNER JOIN products ON cart.product_id = products.id
-      WHERE cart.user_id = $userId";
-      
-    $cart_result = mysqli_query($conn, $cart_query);
-
-    if ($cart_result) {
-        $cart_items = mysqli_fetch_all($cart_result, MYSQLI_ASSOC);
-    } else {
-        echo 'Error en la consulta: ' . mysqli_error($conn);
-    }
-} else {
-    echo 'No hay datos de usuario en la sesión';
-}
-?>
-
-
-  <div class="cart-container">
+<div class="cart-container">
     <h1>Shopping Cart</h1>
-
-    <!-- Cart Items -->
     <div class="cart-items">
-      <?php if (!empty($cart_items)): ?>
-        <?php foreach ($cart_items as $item): ?>
+      <?php if (!empty($cartItems)): ?>
+        <?php foreach ($cartItems as $item): ?>
           <div class="cart-item">
-            <!-- Puedes obtener la imagen del producto de tu base de datos si tienes una columna para ello -->
             <img src="<?= $item['img']; ?>" alt="<?= $item['name']; ?>" class="cart-item-image">
             <div class="cart-item-details">
               <h3><?= $item['name']; ?></h3>
               <p>$<?= number_format($item['price'], 2); ?></p>
               <div class="cart-item-quantity">
-              <label for="quantity-<?= $item['id']; ?>">Cantidad:</label>
-              <input type="number" id="quantity-<?= $item['id']; ?>" value="<?= $item['quantity']; ?>" min="1">
+                <label for="quantity-<?= $item['id']; ?>">Cantidad:</label>
+                <input type="number" id="quantity-<?= $item['id']; ?>" value="<?= $item['quantity']; ?>" min="1">
               </div>
             </div>
             <button class="remove-btn" data-id="<?= $item['id']; ?>">Eliminar</button>
@@ -136,26 +120,55 @@ if (isset($_SESSION['user'])) {
       <?php endif; ?>
     </div>
 
-    <!-- Cart Summary -->
     <div class="cart-summary">
       <?php
-      // Calcular el subtotal y el total
-      $subtotal = 0;
-      $shipping = 5.00; // Precio de envío fijo
-      if (!empty($cart_items)) {
-        foreach ($cart_items as $item) {
-          $subtotal += $item['price'] * $item['quantity'];
-        }
-      }
+      $subtotal = array_reduce($cartItems, fn($sum, $item) => $sum + $item['price'] * $item['quantity'], 0);
+      $shipping = 5.00;
       $total = $subtotal + $shipping;
       ?>
       <h2>Resumen del Carrito</h2>
       <p>Subtotal: $<?= number_format($subtotal, 2); ?></p>
       <p>Envio: $<?= number_format($shipping, 2); ?></p>
       <p><strong>Total: $<?= number_format($total, 2); ?></strong></p>
-      <button class="checkout-btn">Comprar</button>
+      <button type="button" class="checkout-btn">Comprar</button>
     </div>
   </div>
+
+<!-- Modal -->
+<div id="checkoutModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Información de Pago y Envío</h2>
+    <form id="checkoutForm">
+      <div>
+        <label for="cardNumber">Número de Tarjeta</label>
+        <input type="text" id="cardNumber" placeholder="XXXX-XXXX-XXXX-XXXX" required>
+      </div>
+      <div>
+        <label for="cardName">Nombre del Titular</label>
+        <input type="text" id="cardName" placeholder="Nombre en la tarjeta" required>
+      </div>
+      <div>
+        <label for="expirationDate">Fecha de Expiración</label>
+        <input type="month" id="expirationDate" required>
+      </div>
+      <div>
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" placeholder="XXX" required>
+      </div>
+      <div>
+        <label for="address">Dirección de Envío</label>
+        <input type="text" id="address" placeholder="Dirección completa" required>
+      </div>
+    </form>
+    <button id="confirmCheckout">Confirmar Compra</button>
+  </div>
+</div>
+
+<script>
+  const cartItems = <?= json_encode($cartItems); ?>;
+</script>
+
 
 
   <script type="text/javascript" src="js/cart.js"></script>
