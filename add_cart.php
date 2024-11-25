@@ -13,7 +13,7 @@ if(isset($_SESSION['user'])) {
     $quantity = 1;
 
     // Verificar si el producto ya está en el carrito
-    $sql = "SELECT amount FROM cart WHERE user_id = ? AND product_id = ?";
+    $sql = "SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $userId, $productId);
     $stmt->execute();
@@ -23,7 +23,7 @@ if(isset($_SESSION['user'])) {
         // Si ya existe, obtener la cantidad actual y actualizarla
         $stmt->bind_result($currentAmount);
         $stmt->fetch();
-        $newAmount = $currentAmount + $amount;
+        $newAmount = $currentAmount + $quantity;
 
         $updateSql = "UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?";
         $updateStmt = $conn->prepare($updateSql);
