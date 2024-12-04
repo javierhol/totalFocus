@@ -35,6 +35,9 @@ if (isset($_SESSION['user'])) {
 
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet" />
@@ -67,7 +70,9 @@ if (isset($_SESSION['user'])) {
               <li class="nav-item">
                 <a class="nav-link" href="product.php">Productos</a>
               </li>
-             
+              <li class='nav-item'>
+                <a class='nav-link' href='about.php'>Conocenos</a>
+              </li>
               <li class="nav-item active">
                 <a class="nav-link" href="contactMe.php">Contactanos</a>
               </li>
@@ -88,6 +93,9 @@ if (isset($_SESSION['user'])) {
               </a>
               <a href='userProfile.php' id="profile">
                 <i class='fa fa-user-circle-o' aria-hidden='true'></i>
+              </a>
+              <a href='buys.php' id="buy">
+                <i class='fa fa-money' aria-hidden='true'></i>
               </a>
             </div>
           </div>
@@ -144,8 +152,8 @@ if (isset($_SESSION['user'])) {
   <!-- end contact section -->
 
 
-  <!-- info section -->
-  <section class="info_section layout_padding2">
+   <!-- info section -->
+   <section class="info_section layout_padding2">
     <div class="container">
       <div class="info_logo">
         <h2>
@@ -171,17 +179,13 @@ if (isset($_SESSION['user'])) {
               <div class="img-box">
                 <img src="images/telephone-white.png" width="12px" alt="">
               </div>
-              <p>
-                +34 653467744
-              </p>
+              <a href="politic.php">Politica y Privacidad</a>
             </div>
             <div>
               <div class="img-box">
                 <img src="images/envelope-white.png" width="18px" alt="">
               </div>
-              <p>
-                totalfocus@gmail.com
-              </p>
+              <a href="faqs.php">FAQS</a>
             </div>
           </div>
         </div>
@@ -191,7 +195,8 @@ if (isset($_SESSION['user'])) {
               Informacion
             </h5>
             <p>
-              Tiene como objetivo principal la satisfacción de nuestros clientes, ofreciendo productos de calidad y un servicio personalizado.
+              Tiene como objetivo principal la satisfacción de nuestros clientes, ofreciendo productos de calidad y un
+              servicio personalizado.
             </p>
           </div>
         </div>
@@ -206,42 +211,42 @@ if (isset($_SESSION['user'])) {
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w1.png" alt="">
+                      <img src="images/slider-1.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w2.png" alt="">
+                      <img src="images/slider-2.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w3.png" alt="">
+                      <img src="images/slider-3.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w4.png" alt="">
+                      <img src="images/slider-4.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w5.png" alt="">
+                      <img src="images/slider-5.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w6.png" alt="">
+                      <img src="images/slider-2.jpg" alt="">
                     </div>
                   </a>
                 </div>
@@ -284,15 +289,15 @@ if (isset($_SESSION['user'])) {
   <!-- end info_section -->
 
   <!-- footer section -->
-  <section class="footer_section">
-    <div class="container">
+  <section class='footer_section'>
+    <div class='container'>
       <p>
-        &copy; <span id="displayYear"></span> Todos los derechos reservados | Diseñado por
-        <a href="#">Miguel Sanz</a>
+        &copy;
+        <span id='displayYear'></span> Todos los derechos reservados | Diseñado por
+        <a href='#'>Miguel Sanz</a>
       </p>
     </div>
   </section>
-  <!-- footer section -->
 
   <!-- jQery -->
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>

@@ -116,6 +116,7 @@ color: #18c77e;
 
 .custom_nav-container .navbar-nav {
   margin: auto;
+  gap: 25px;
 }
 
 .custom_nav-container .navbar-nav .nav-item .nav-link {

@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_SESSION['user'])) {
-        $userId = $_SESSION['user'];
+        $userId = $_SESSION['user']['id'];
 
         // $username = $_POST['username'];
         // $email = $_POST['email'];

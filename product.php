@@ -4,7 +4,7 @@ session_start();
 
 $totalProducts = 0;
 if (isset($_SESSION['user'])) {
-  $userId = $_SESSION['user'];
+  $userId = $_SESSION['user']['id'];
   $totalProducts = getCartTotal($conn, $userId);
 }
 
@@ -30,12 +30,13 @@ function renderProducts($products)
                     <img src='{$row['img']}' alt=''>
                 </div>
                 <div class='product-details'>
+                 <span class='product-catagory'>Stock: {$row['stock']}</span>
                     <h4><a href=''>{$row['name']}</a></h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, possimus nostrum!</p>
                     <div class='product-bottom-details'>
                         <div class='product-price'>$" . number_format($row['price'], 2) . "</div>
                         <div class='product-links'>
-                            <a href='' id='wishlist'><i class='fa fa-heart'></i></a>
+                            <a href='javascript:void(0)' id='wishlist' class='add-wishlist'><i class='fa fa-heart'></i></a>
                             <a href='javascript:void(0)' class='add-cart' data-id='{$row['id']}'><i class='fa fa-shopping-cart'></i></a>
                         </div>
                     </div>
@@ -75,6 +76,9 @@ function renderProducts($products)
 
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet" />
@@ -109,7 +113,9 @@ function renderProducts($products)
               <li class="nav-item active">
                 <a class="nav-link" href="product.php">Productos</a>
               </li>
-
+              <li class='nav-item'>
+                <a class='nav-link' href='about.php'>Conocenos</a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="contactMe.php">Contactanos</a>
               </li>
@@ -123,13 +129,16 @@ function renderProducts($products)
               </a>
               <a href='cart.php' id='cart'>
                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
-                <span id="cart-count" class="cart-count"><?php echo $totalProducts ? : 0; ?></span>
+                <span id="cart-count" class="cart-count"><?php echo $totalProducts ?: 0; ?></span>
               </a>
               <a href='wishlist.php' id="wishlist">
                 <i class='fa fa-heart' aria-hidden='true'></i>
               </a>
               <a href='userProfile.php' id="profile">
                 <i class='fa fa-user-circle-o' aria-hidden='true'></i>
+              </a>
+              <a href='buys.php' id="buy">
+                <i class='fa fa-money' aria-hidden='true'></i>
               </a>
             </div>
           </div>
@@ -180,7 +189,7 @@ function renderProducts($products)
     <div class="container">
       <div class="info_logo">
         <h2>
-          Tiempo de fotografia
+          Tiempo de fotografía
         </h2>
       </div>
       <div class="row">
@@ -202,24 +211,20 @@ function renderProducts($products)
               <div class="img-box">
                 <img src="images/telephone-white.png" width="12px" alt="">
               </div>
-              <p>
-                +34 1234567890
-              </p>
+              <a href="politic.php">Politica y Privacidad</a>
             </div>
             <div>
               <div class="img-box">
                 <img src="images/envelope-white.png" width="18px" alt="">
               </div>
-              <p>
-                totalfocus@gmail.com
-              </p>
+              <a href="faqs.php">FAQS</a>
             </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="info_info">
             <h5>
-              Información
+              Informacion
             </h5>
             <p>
               Tiene como objetivo principal la satisfacción de nuestros clientes, ofreciendo productos de calidad y un
@@ -238,42 +243,42 @@ function renderProducts($products)
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/1.jpg" alt="">
+                      <img src="images/slider-1.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w2.png" alt="">
+                      <img src="images/slider-2.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w3.png" alt="">
+                      <img src="images/slider-3.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w4.png" alt="">
+                      <img src="images/slider-4.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w5.png" alt="">
+                      <img src="images/slider-5.jpg" alt="">
                     </div>
                   </a>
                 </div>
                 <div class="col-4 px-0">
                   <a href="">
                     <div class="insta-box b-1">
-                      <img src="images/w6.png" alt="">
+                      <img src="images/slider-2.jpg" alt="">
                     </div>
                   </a>
                 </div>
@@ -285,12 +290,12 @@ function renderProducts($products)
         <div class="col-md-3">
           <div class="info_form ">
             <h5>
-              Enterate de las novedades!
+              Newsletter
             </h5>
             <form action="">
-              <input type="email" placeholder="Ingresa tu email">
+              <input type="email" placeholder="Enter your email">
               <button>
-                Suscribete
+                Subscribe
               </button>
             </form>
             <div class="social_box">
@@ -316,15 +321,15 @@ function renderProducts($products)
   <!-- end info_section -->
 
   <!-- footer section -->
-  <section class="footer_section">
-    <div class="container">
+  <section class='footer_section'>
+    <div class='container'>
       <p>
-        &copy; <span id="displayYear"></span>Todos los derechos reservados | Diseñado por
-        <a href="https://html.design/">Miguel Sanz</a>
+        &copy;
+        <span id='displayYear'></span> Todos los derechos reservados | Diseñado por
+        <a href='#'>Miguel Sanz</a>
       </p>
     </div>
   </section>
-  <!-- footer section -->
 
   <!-- jQery -->
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
@@ -337,6 +342,8 @@ function renderProducts($products)
   <!-- custom js -->
   <script type="text/javascript" src="js/custom.js"></script>
   <script type="text/javascript" src="js/addCart.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
 
 
 </body>

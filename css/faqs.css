@@ -1,0 +1,116 @@
+
+
+body{
+    background-color: #29934B;
+}
+
+.faq-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.faq {
+    margin-bottom: 20px;
+}
+
+.accordion {
+    background-color: white;
+    color: #29934B;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 18px;
+    transition: 0.4s;
+}
+
+.accordion:hover {
+    background-color: #3CA56D;
+    color: rgb(255, 255, 255);
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.panel p {
+    margin-top: 0;
+}
+
+/* Cambio de estilo al hacer clic */
+.accordion.active {
+    background-color: #0a5d31;
+    color: rgb(255, 255, 255);
+}
+
+.panel.active {
+    max-height: 500px;
+}
+        /* Estilo para el bloque verde */
+        .separator {
+            background-color: #29934B;
+            height: 300px;
+        }
+
+        /* Estilos para el título de Preguntas Frecuentes */
+        h1 {
+            text-align: center;
+            font-size: 40px; 
+            color: rgb(255, 255, 255);
+        }
+
+        /* Estilo para el icono */
+        .accordion i {
+            margin-left: 10px; /* Ajustado el margen izquierdo */
+        }
+
+        .faq {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 12px r#0a5d31;
+            margin-bottom: 30px; /* Espacio entre tarjetas */
+        }
+
+        .accordion {
+            background-color: #f1f1f1;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: background-color 0.4s;
+            position: relative;
+        }
+        
+        .accordion.active {
+            background-color: #0a5d31;
+        }
+        
+        .accordion i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.4s;
+        }
+        
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+        
+        .accordion.active i {
+            transform: translateY(-50%) rotate(90deg);
+        }
+        

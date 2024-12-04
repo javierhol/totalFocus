@@ -3,13 +3,13 @@
 require_once 'connect.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
-
 $conn = getConnect();
 session_start();
 
-if(isset($_SESSION['user'])) {
-    $userId = $_SESSION['user'];
+if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user']['id'];
     $productId = $data['id'];
+    $origin = $data['origin'] ?? "product";
     $quantity = 1;
 
     // Verificar si el producto ya está en el carrito
@@ -20,7 +20,6 @@ if(isset($_SESSION['user'])) {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        // Si ya existe, obtener la cantidad actual y actualizarla
         $stmt->bind_result($currentAmount);
         $stmt->fetch();
         $newAmount = $currentAmount + $quantity;
@@ -30,30 +29,36 @@ if(isset($_SESSION['user'])) {
         $updateStmt->bind_param("iii", $newAmount, $userId, $productId);
 
         if ($updateStmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Cantidad actualizada']);
+            $success = true;
         } else {
-            echo json_encode(['success' => false, 'message' => 'Error al actualizar la cantidad']);
+            $success = false;
         }
 
         $updateStmt->close();
     } else {
-        // Si no existe, insertar un nuevo registro
         $insertSql = "INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)";
         $insertStmt = $conn->prepare($insertSql);
         $insertStmt->bind_param("iii", $userId, $productId, $quantity);
 
-        if ($insertStmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Producto agregado al carrito']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Error al agregar el producto']);
-        }
-
+        $success = $insertStmt->execute();
         $insertStmt->close();
     }
 
     $stmt->close();
+
+    // Si viene de la lista de deseos, eliminarlo de ahí
+    if ($success && $origin === "wishlist") {
+        $deleteSql = "DELETE FROM wishlist WHERE user_id = ? AND product_id = ?";
+        $deleteStmt = $conn->prepare($deleteSql);
+        $deleteStmt->bind_param("ii", $userId, $productId);
+        $deleteStmt->execute();
+        $deleteStmt->close();
+    }
+
+    echo json_encode(['success' => $success]);
 } else {
-    echo 'No hay datos de usuario en el localStorage';
+    echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
 }
+
 
 ?>

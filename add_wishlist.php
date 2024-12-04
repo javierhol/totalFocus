@@ -8,7 +8,7 @@ $conn = getConnect();
 session_start();
 
 if(isset($_SESSION['user'])) {
-    $userId = $_SESSION['user'];
+    $userId = $_SESSION['user']['id'];
     $productId = $data['id'];
 
     $sql = "SELECT * FROM wishlist WHERE user_id = ? AND product_id = ?";

@@ -12,6 +12,8 @@ if (isset($_SESSION['user'])) {
     $totalProducts = getCartTotal($conn, $userId);
     $cartItems = getCartItems($conn, $userId);
 }
+
+echo "<script>console.log('Total Products: ', " . json_encode($totalProducts) . ");</script>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +35,9 @@ if (isset($_SESSION['user'])) {
 
   <!-- font awesome style -->
   <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
   
 
   <link rel='stylesheet' type='text/css' href='css/card-shop.css' />
@@ -60,11 +65,12 @@ if (isset($_SESSION['user'])) {
               <li class="nav-item ">
                 <a class="nav-link" href="index.php">Inicio <span class="sr-only">(current)</span></a>
               </li>
-
               <li class="nav-item ">
                 <a class="nav-link" href="product.php">Productos</a>
               </li>
-
+              <li class='nav-item'>
+                <a class='nav-link' href='about.php'>Conocenos</a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="contactMe.php">Contactanos</a>
               </li>
@@ -125,14 +131,22 @@ if (isset($_SESSION['user'])) {
       $subtotal = array_reduce($cartItems, fn($sum, $item) => $sum + $item['price'] * $item['quantity'], 0);
       $shipping = 5.00;
       $total = $subtotal + $shipping;
+      $isCartEmpty = empty($cartItems); // Verificar si el carrito está vacío
       ?>
       <h2>Resumen del Carrito</h2>
       <p>Subtotal: $<?= number_format($subtotal, 2); ?></p>
       <p>Envio: $<?= number_format($shipping, 2); ?></p>
       <p><strong>Total: $<?= number_format($total, 2); ?></strong></p>
-      <button type="button" class="checkout-btn">Comprar</button>
+      <button 
+        type="button" 
+        class="checkout-btn <?= $isCartEmpty ? 'disabled-btn' : ''; ?>" 
+        <?= $isCartEmpty ? 'disabled' : ''; ?> 
+        title="<?= $isCartEmpty ? 'El carrito está vacío' : ''; ?>">
+        Comprar
+      </button>
     </div>
-  </div>
+</div>
+
 
 <!-- Modal -->
 <div id="checkoutModal" class="modal">
@@ -142,7 +156,7 @@ if (isset($_SESSION['user'])) {
     <form id="checkoutForm">
       <div>
         <label for="cardNumber">Número de Tarjeta</label>
-        <input type="text" id="cardNumber" placeholder="XXXX-XXXX-XXXX-XXXX" required>
+        <input type="text" id="cardNumber" placeholder="XXXX-XXXX-XXXX-XXXX" required maxlength="16">
       </div>
       <div>
         <label for="cardName">Nombre del Titular</label>
@@ -150,11 +164,11 @@ if (isset($_SESSION['user'])) {
       </div>
       <div>
         <label for="expirationDate">Fecha de Expiración</label>
-        <input type="month" id="expirationDate" required>
+        <input type="month" id="expirationDate" required min="2024-01">
       </div>
       <div>
         <label for="cvv">CVV</label>
-        <input type="text" id="cvv" placeholder="XXX" required>
+        <input type="text" id="cvv" placeholder="XXX" required maxlength="3">
       </div>
       <div>
         <label for="address">Dirección de Envío</label>
@@ -165,14 +179,159 @@ if (isset($_SESSION['user'])) {
   </div>
 </div>
 
+  <!-- info section -->
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="info_logo">
+        <h2>
+          Tiempo de fotografía
+        </h2>
+      </div>
+      <div class="row">
+
+        <div class="col-md-3">
+          <div class="info_contact">
+            <h5>
+              Sobre la tienda
+            </h5>
+            <div>
+              <div class="img-box">
+                <img src="images/location-white.png" width="18px" alt="">
+              </div>
+              <p>
+                España - Madrid
+              </p>
+            </div>
+            <div>
+              <div class="img-box">
+                <img src="images/telephone-white.png" width="12px" alt="">
+              </div>
+              <a href="politic.php">Politica y Privacidad</a>
+            </div>
+            <div>
+              <div class="img-box">
+                <img src="images/envelope-white.png" width="18px" alt="">
+              </div>
+              <a href="faqs.php">FAQS</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info_info">
+            <h5>
+              Información
+            </h5>
+            <p>
+              Tiene como objetivo principal la satisfacción de nuestros clientes, ofreciendo productos de calidad y un
+              servicio personalizado.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="info_insta">
+            <h5>
+              Instagram
+            </h5>
+            <div class="insta_container">
+              <div class="row m-0">
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="images/slider-1.jpg" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="images/slider-2.jpg" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="images/slider-3.jpg" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="images/slider-4.jpg" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="images/slider-5.jpg" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="images/slider-2.jpg" alt="">
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="info_form ">
+            <h5>
+              Newsletter
+            </h5>
+            <form action="">
+              <input type="email" placeholder="Enter your email">
+              <button>
+                Subscribe
+              </button>
+            </form>
+            <div class="social_box">
+              <a href="">
+                <img src="images/fb.png" alt="">
+              </a>
+              <a href="">
+                <img src="images/twitter.png" alt="">
+              </a>
+              <a href="">
+                <img src="images/linkedin.png" alt="">
+              </a>
+              <a href="">
+                <img src="images/youtube.png" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end info_section -->
+
+  <!-- footer section -->
+  <section class='footer_section'>
+    <div class='container'>
+      <p>
+        &copy;
+        <span id='displayYear'></span> Todos los derechos reservados | Diseñado por
+        <a href='#'>Miguel Sanz</a>
+      </p>
+    </div>
+  </section>
+
 <script>
   const cartItems = <?= json_encode($cartItems); ?>;
 </script>
 
-
-
   <script type="text/javascript" src="js/cart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
 
 </body>
 
