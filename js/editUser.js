@@ -2,12 +2,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("edit-profile");
   let newPass = document.getElementById("newPassword");
   let confirmPass = document.getElementById("confirmPassword");
+  let img = document.getElementById("img");
+  let address = document.getElementById("address");
+  let fileInput = document.getElementById("file-input"),
+    label = fileInput.nextElementSibling,
+    labelText = label.querySelector("span"),
+    labelRemove = document.querySelector("i.remove"),
+    labelDefault = labelText.textContent;
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
     let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
+    // Verificar las contraseñas solo si se envía una nueva contraseña
     if (
       newPass.value !== "" &&
       !regex.test(newPass.value) &&
@@ -22,7 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (newPass.value !== confirmPass.value) {
+    // Verificar si las contraseñas coinciden solo si se envía una nueva contraseña
+    if (newPass.value !== "" && newPass.value !== confirmPass.value) {
       swal(
         "¡Las contraseñas no coinciden!",
         "Por favor, intenta de nuevo.",
@@ -32,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const formData = new FormData(form);
+    console.log(JSON.stringify(Object.fromEntries(formData)));
 
     fetch("updateProfile.php", {
       method: "POST",
@@ -43,10 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(data.status);
           swal("¡Datos actualizados!", data.message, "success").then(
             (value) => {
-              window.location.href = "login.html";
-              localStorage.clear();
+              window.location.reload();
             }
           );
+        } else if (data.status === "ok") {
+          swal("¡Perfecto!", data.message, "success").then(() => {
+            localStorage.clear();
+            window.location.href = "login.html";
+          });
         } else {
           swal(
             "¡" + data.message + "!",
@@ -59,6 +73,27 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error:", error);
         alert("Ocurrió un error al procesar la solicitud.");
       });
+  });
+
+  // on file change
+  fileInput.addEventListener("change", function (event) {
+    let fileName = fileInput.value.split("\\").pop();
+    if (fileName) {
+      console.log(fileInput);
+      labelText.textContent = fileName;
+      labelRemove.style.display = "inline";
+    } else {
+      labelText.textContent = labelDefault;
+      labelRemove.style.display = "none";
+    }
+  });
+
+  // Remove file
+  labelRemove.addEventListener("click", function (event) {
+    fileInput.value = "";
+    labelText.textContent = labelDefault;
+    labelRemove.style.display = "none";
+    console.log(fileInput);
   });
 });
 

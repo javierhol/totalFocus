@@ -30,6 +30,7 @@ if (isset($_SESSION['user'])) {
       $username = $userData['username'];
       $email = $userData['email'];
       $img = $userData['img'];
+      $address = $userData['address'];
     } else {
       echo 'No se encontró ningún usuario con el ID proporcionado';
     }
@@ -101,14 +102,7 @@ if (isset($_SESSION['user'])) {
               </a>
               <a href='cart.php' id='cart'>
                 <i class='fa fa-shopping-cart' aria-hidden='true'></i>
-                <span id="cart-count" class="cart-count" style="   
-                                position: absolute;
-                                background-color: #18c77e;
-                                color: #000000;
-                                border-radius: 100%;
-                                padding: 0px 4px;
-                                font-size: 10px;
-                                "><?php echo $totalProducts ?: 0; ?></span>
+                <span id="cart-count" class="cart-count"><?php echo $totalProducts ?: 0; ?></span>
               </a>
               <a href='wishlist.php' id='wishlist'>
                 <i class='fa fa-heart' aria-hidden='true'></i>
@@ -136,6 +130,18 @@ if (isset($_SESSION['user'])) {
               <img class='img-account-profile rounded border border-success mb-2'
                 src="<?php echo isset($img) ? $img : 'https://bootdey.com/img/Content/avatar/avatar1.png'; ?>"
                 alt='Foto de perfil'>
+
+              <!-- boton upload img -->
+              <div class="wrapper">
+                <h2>Sube una imagen</h2>
+                <input type="file" id="file-input" accept="image/png, image/jpeg" name="img">
+                <label for="file-input">
+                  <i class="fa fa-paperclip fa-2x"></i>
+                  <span></span>
+                </label>
+                <i class="fa fa-times-circle remove"></i>
+              </div>
+
             </div>
           </div>
         </div>
@@ -156,6 +162,10 @@ if (isset($_SESSION['user'])) {
                   <input class='form-control' id='email' type='email' name='email' placeholder='relaxifi@relax.com'
                     value="<?php echo isset($email) ? $email : ''; ?>" disabled>
                 </div>
+              </div>
+              <div class='mb-3 input-field'>
+                <label class='small mb-1' for='address'>Dirección</label>
+                <input class='form-control ' id='address' type='text' name='address' value="<?php echo isset($address) ? $address : ''; ?>" placeholder='Calle 14 California '>
               </div>
               <div class='mb-3 input-field'>
                 <label class='small mb-1' for='currentPassword'>Contraseña Actual</label>

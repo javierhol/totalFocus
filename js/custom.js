@@ -41,27 +41,9 @@ if (id) {
 }
 
 /** logout function **/
-logout.addEventListener("click", async function () {
-  try {
-    const response = await fetch("logout.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const result = await response.json();
-    if (result.success) {
-      localStorage.clear();
-      alert(result.message);
-
-      window.location.href = "index.php";
-    } else {
-      alert("Hubo un problema al cerrar la sesión.");
-    }
-  } catch (error) {
-    console.error("Error al cerrar la sesión:", error);
-  }
+logout.addEventListener("click", function () {
+  localStorage.clear();
+  window.location.href = "index.php";
 });
 
 cart.forEach(function (element) {

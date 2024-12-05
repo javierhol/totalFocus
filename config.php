@@ -26,7 +26,9 @@ if ($tableCheck->num_rows == 0) {
         username VARCHAR(255) NOT NULL,
         email VARCHAR(255),
         pass TEXT NOT NULL,
-        img TEXT);
+        img TEXT,
+        address VARCHAR(255));
+
 
         CREATE TABLE IF NOT EXISTS products (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
